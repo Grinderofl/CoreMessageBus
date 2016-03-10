@@ -11,10 +11,10 @@ namespace ConsoleSample
     {
         public static void Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection().AddSingleton<MyDependency>().BuildServiceProvider();
-            var factory = new MessageHandlerFactory(serviceProvider);
+            var serviceProvider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
+            var bus = serviceProvider.GetService<IMessageBus>();
 
-            var item = factory.Create<MyMessage>(typeof(MyMessageHandler));
+            bus.Send(new Message());
         }
 
         private class Message : IMessage
@@ -25,7 +25,7 @@ namespace ConsoleSample
         {
             public void Handle(Message message)
             {
-                throw new NotImplementedException();
+                Console.WriteLine("Hello world");
             }
         }
 
