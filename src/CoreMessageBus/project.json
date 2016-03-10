@@ -7,15 +7,20 @@
   "licenseUrl": "https://github.com/Grinderofl/CoreMessageBus/blob/master/LICENSE.md",
   "dependencies": {
     "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-*",
-    "Microsoft.Extensions.DependencyInjection": "1.0.0-*"
+    "Microsoft.Extensions.DependencyInjection": "1.0.0-*",
+    "JetBrains.Annotations": "10.1.2-*"
   },
 
   "frameworks": {
     "net451": {
+      "frameworkAssemblies": {
+        "System.Runtime": ""
+      }
     },
     "netstandard1.3": {
-      "imports": [ "dotnet5.4", "portable-windows8+net45+wp8" ],
+      "imports": [ "dotnet5.4", "portable-windows8+net45+wp8", "dnxcore50" ],
       "dependencies": {
+        "Microsoft.CSharp": "4.0.1-*",
         "Microsoft.NETCore.Platforms": "1.0.1-*",
         "System.Collections": "4.0.11-*",
         "System.ComponentModel": "4.0.1-*",

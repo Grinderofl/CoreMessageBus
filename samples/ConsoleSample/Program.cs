@@ -2,23 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xunit;
+using CoreMessageBus;
 
-namespace CoreMessageBus.Tests
+namespace ConsoleSample
 {
-    // This project can output the Class library as a NuGet Package.
-    // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
-    public class MessageHandlerRegistryTests
+    public class Program
     {
-        [Fact]
-        public void Adds_handlers_only_once()
+        public static void Main(string[] args)
         {
             var registry = new MessageHandlerRegistry();
 
             registry.RegisterHandler<MessageHandlerOne>();
             registry.RegisterHandler<MessageHandlerOne>();
-
-            Assert.Equal(1, registry.RegistryItems.Count);
         }
 
         private class Message : IMessage
@@ -31,6 +26,6 @@ namespace CoreMessageBus.Tests
             {
                 throw new NotImplementedException();
             }
-        } 
+        }
     }
 }

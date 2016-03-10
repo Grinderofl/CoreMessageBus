@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.0.0-*",
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-*",
+    "CoreMessageBus": "1.0.0-*",
+    "Microsoft.NETCore.Platforms": "1.0.1-*"
+  },
+
+  "commands": {
+    "ConsoleSample": "ConsoleSample"
+  },
+
+  "frameworks": {
+    "net451": { },
+    "dnxcore50": {
+      "imports": "portable-452+win81",
+      "dependencies": {
+        "System.Console": "4.0.0-*"
+
+      }
+    }
+  }
+}
