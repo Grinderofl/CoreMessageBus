@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreMessageBus;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleSample
 {
@@ -10,10 +11,10 @@ namespace ConsoleSample
     {
         public static void Main(string[] args)
         {
-            var registry = new MessageHandlerRegistry();
+            var serviceProvider = new ServiceCollection().AddSingleton<MyDependency>().BuildServiceProvider();
+            var factory = new MessageHandlerFactory(serviceProvider);
 
-            registry.RegisterHandler<MessageHandlerOne>();
-            registry.RegisterHandler<MessageHandlerOne>();
+            var item = factory.Create<MyMessage>(typeof(MyMessageHandler));
         }
 
         private class Message : IMessage
@@ -27,5 +28,29 @@ namespace ConsoleSample
                 throw new NotImplementedException();
             }
         }
+
+        private class MyMessageHandler : IMessageHandler<MyMessage>
+        {
+            public MyMessageHandler(MyDependency dependency)
+            {
+
+            }
+
+            public void Handle(MyMessage message)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private class MyDependency
+        {
+
+        }
+
+        private class MyMessage
+        {
+        }
     }
+
+    
 }

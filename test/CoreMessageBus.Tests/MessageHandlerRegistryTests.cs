@@ -15,8 +15,8 @@ namespace CoreMessageBus.Tests
         {
             var registry = new MessageHandlerRegistry();
 
-            registry.RegisterHandler<MessageHandlerOne>();
-            registry.RegisterHandler<MessageHandlerOne>();
+            registry.RegisterHandler<MessageHandler>();
+            registry.RegisterHandler<MessageHandler>();
 
             Assert.Equal(1, registry.RegistryItems.Count);
         }
@@ -25,7 +25,7 @@ namespace CoreMessageBus.Tests
         {
         }
 
-        private class MessageHandlerOne : IMessageHandler<Message>
+        private class MessageHandler : IMessageHandler<Message>
         {
             public void Handle(Message message)
             {

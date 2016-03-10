@@ -13,25 +13,19 @@
   "frameworks": {
     "net451": {
       "dependencies": {
-        "xunit.runner.console": "2.1.0"
-      },
-      "frameworkAssemblies": {
-        "System.Threading.Tasks": ""
-      }
-    },
-    "dnx451": {
-      "dependencies": {
-        "xunit.runner.console": "2.1.0"
+        "xunit.runner.console": "2.1.0",
+        "Moq": "4.2.1510.2205"
       },
       "frameworkAssemblies": {
         "System.Threading.Tasks": ""
       }
     },
     "netstandardapp1.5": {
-      "imports": [ "dnxcore50", "portable-windows8+net452+win81" ],
+      "imports": [ "dnxcore50", "portable-windows8+net452+win81", "dotnet5.4" ],
       "dependencies": {
         "dotnet-test-xunit": "1.0.0-dev-*",
-        "Microsoft.NETCore.Platforms": "1.0.1-*"
+        "Microsoft.NETCore.Platforms": "1.0.1-*",
+        "moq.netcore": "4.4.0-*"
       }
     }
   }
