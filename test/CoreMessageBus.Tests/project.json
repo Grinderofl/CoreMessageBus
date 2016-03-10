@@ -1,0 +1,38 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "CoreMessageBus.Tests Class Library",
+  "authors": [ "Nero" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "dependencies": {
+    "xunit": "2.1.0",
+    "CoreMessageBus": "1.0.0-*"   
+  },
+  "testRunner":"xunit",
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "xunit.runner.console": "2.1.0"
+      },
+      "frameworkAssemblies": {
+        "System.Threading.Tasks": ""
+      }
+    },
+    "dnx451": {
+      "dependencies": {
+        "xunit.runner.console": "2.1.0"
+      },
+      "frameworkAssemblies": {
+        "System.Threading.Tasks": ""
+      }
+    },
+    "netstandardapp1.5": {
+      "imports": [ "dnxcore50", "portable-windows8+net452+win81" ],
+      "dependencies": {
+        "dotnet-test-xunit": "1.0.0-dev-*",
+        "Microsoft.NETCore.Platforms": "1.0.1-*"
+      }
+    }
+  }
+}
