@@ -10,7 +10,7 @@ namespace CoreMessageBus
         // Internal for unit testing
         internal readonly ISet<MessageHandlerRegistryItem> RegistryItems = new HashSet<MessageHandlerRegistryItem>();
 
-        public IEnumerable<Type> HandlersFor<T>()
+        public virtual IEnumerable<Type> HandlersFor<T>()
         {
             return RegistryItems.Where(handler => handler.Handles<T>()).SelectMany(items => items.MessageHandlers);
         }

@@ -31,6 +31,6 @@ namespace CoreMessageBus.Tests
             {
                 throw new NotImplementedException();
             }
-        } 
+        }
     }
 }
