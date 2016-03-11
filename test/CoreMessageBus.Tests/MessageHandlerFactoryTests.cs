@@ -9,12 +9,18 @@ namespace CoreMessageBus.Tests
         [Fact]
         public void Creates_item_using_service_provider()
         {
-            var serviceProvider = new ServiceCollection().AddSingleton<Dependency>().BuildServiceProvider();
-            var factory = new MessageHandlerFactory(serviceProvider);
+            var factory = CreateFactory();
 
             var item = factory.Create<Message>(typeof(MessageHandler));
 
             Assert.NotNull(item);
+        }
+
+        private static MessageHandlerFactory CreateFactory()
+        {
+            var serviceProvider = new ServiceCollection().AddSingleton<Dependency>().BuildServiceProvider();
+            var factory = new MessageHandlerFactory(serviceProvider);
+            return factory;
         }
 
         private class MessageHandler : IMessageHandler<Message>

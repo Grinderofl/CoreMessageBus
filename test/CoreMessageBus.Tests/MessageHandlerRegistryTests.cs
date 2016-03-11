@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace CoreMessageBus.Tests
@@ -21,10 +22,12 @@ namespace CoreMessageBus.Tests
             Assert.Equal(1, registry.RegistryItems.Count);
         }
 
+        [UsedImplicitly]
         private class Message : IMessage
         {
         }
 
+        [UsedImplicitly]
         private class MessageHandler : IMessageHandler<Message>
         {
             public void Handle(Message message)
@@ -46,6 +49,7 @@ namespace CoreMessageBus.Tests
             Assert.Equal(1, cache.CacheItems.Count);
         }
 
+        [UsedImplicitly]
         private class Message : IMessage
         {
         }

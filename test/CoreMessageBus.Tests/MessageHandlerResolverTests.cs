@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Moq;
 using Xunit;
 
@@ -11,21 +12,26 @@ namespace CoreMessageBus.Tests
         [Fact]
         public void Can_resolve()
         {
-            var registry = new Mock<MessageHandlerRegistry>();
-            var factory = new Mock<IMessageHandlerFactory>();
-
             var handler = new MessageHandler();
-
-            registry.Setup(x => x.HandlersFor<Message>()).Returns(new [] {typeof(MessageHandler)});
-            factory.Setup(x => x.Create<Message>(It.IsAny<Type>())).Returns(handler);
-
-            var resolver = new MessageHandlerResolver(factory.Object, registry.Object);
+            var resolver = GetResolver(handler);
 
             var resolved = resolver.Resolve<Message>().FirstOrDefault();
 
             Assert.Same(handler, resolved);
         }
 
+        private static MessageHandlerResolver GetResolver(MessageHandler handler)
+        {
+            var registry = new Mock<MessageHandlerRegistry>();
+            var factory = new Mock<IMessageHandlerFactory>();
+
+            registry.Setup(x => x.HandlersFor<Message>()).Returns(new[] { typeof(MessageHandler) });
+            factory.Setup(x => x.Create<Message>(It.IsAny<Type>())).Returns(handler);
+
+            return new MessageHandlerResolver(factory.Object, registry.Object);
+        }
+
+        [UsedImplicitly]
         private class Message
         {
         }
