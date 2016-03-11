@@ -6,7 +6,7 @@
 
   "dependencies": {
     "Microsoft.Extensions.Configuration.Json": "1.0.0-*",
-    "CoreMessageBus": "1.0.0-*",
+    "CoreMessageBus.SqlServer": "1.0.0-*",
     "Microsoft.NETCore.Platforms": "1.0.1-*"
   },
 

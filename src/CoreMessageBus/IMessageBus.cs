@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace CoreMessageBus
@@ -18,5 +19,17 @@ namespace CoreMessageBus
         /// <param name="message">Message to send</param>
         /// <returns></returns>
         Task SendAsync<TMessage>(TMessage message);
+    }
+
+    public interface IServiceBus : IMessageBus
+    {
+        void Defer<TMessage>(TMessage message, TimeSpan timespan);
+        void Defer<TMessage>(TMessage message, DateTime until);
+    }
+
+    public interface IMessageQueueProcessor
+    {
+        void Start();
+        void Stop();
     }
 }

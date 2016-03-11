@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreMessageBus;
+using CoreMessageBus.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleSample
@@ -11,10 +12,14 @@ namespace ConsoleSample
     {
         public static void Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
-            var bus = serviceProvider.GetService<IMessageBus>();
+            var operations = new DatabaseOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue");
+            var processor = new SqlServerMessageQueueProcessor(operations, null);
+            processor.Start();
+            Console.ReadKey();
+            //var serviceProvider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
+            //var bus = serviceProvider.GetService<IMessageBus>();
 
-            bus.Send(new Message());
+            //bus.Send(new Message());
         }
 
         private class Message : IMessage
