@@ -33,4 +33,28 @@ namespace CoreMessageBus.Tests
             }
         }
     }
+
+    public class MessageHandlerCacheTests
+    {
+        [Fact]
+        public void Can_cache_items()
+        {
+            var cache = new MessageHandlerCache();
+
+            cache.Add(new MessageHandler());
+            Assert.Equal(1, cache.CacheItems.Count);
+        }
+
+        private class Message : IMessage
+        {
+        }
+
+        private class MessageHandler : IMessageHandler<Message>
+        {
+            public void Handle(Message message)
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
 }

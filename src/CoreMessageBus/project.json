@@ -6,6 +6,7 @@
   "projectUrl": "https://github.com/Grinderofl/CoreMessageBus",
   "licenseUrl": "https://github.com/Grinderofl/CoreMessageBus/blob/master/LICENSE.md",
   "dependencies": {
+    "Microsoft.Extensions.Logging.Abstractions": "1.0.0-*",
     "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-*",
     "Microsoft.Extensions.DependencyInjection": "1.0.0-*",
     "JetBrains.Annotations": "10.1.2-*"
