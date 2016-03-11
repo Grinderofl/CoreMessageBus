@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreMessageBus
 {
@@ -58,41 +56,5 @@ namespace CoreMessageBus
             
         }
 
-    }
-
-    public class MessageBusConfiguration
-    {
-        internal readonly MessageHandlerRegistry Registry = new MessageHandlerRegistry();
-
-        public MessageBusConfiguration RegisterHandler<T>()
-        {
-            Registry.RegisterHandler<T>();
-            return this;
-        }
-
-        public MessageBusConfiguration RegisterHandler(Type handlerType)
-        {
-            Registry.RegisterHandler(handlerType);
-            return this;
-        }
-    }
-
-    public static class Extensions
-    {
-        public static IServiceCollection AddMessageBus([NotNull] this IServiceCollection services, Action<MessageBusConfiguration> configurationAction)
-        {
-            if (services == null) throw new ArgumentNullException(nameof(services));
-
-            var configuration = new MessageBusConfiguration();
-            configurationAction(configuration);
-            services.AddSingleton(configuration);
-            services.AddScoped<MessageHandlerRegistry>(s => s.GetService<MessageBusConfiguration>().Registry);
-            services
-                .AddScoped<IMessageHandlerResolver, MessageHandlerResolver>()
-                .AddScoped<IMessageHandlerFactory, MessageHandlerFactory>()
-                .AddScoped<IMessageBus, MessageBus>();
-            
-            return services;
-        }
     }
 }
