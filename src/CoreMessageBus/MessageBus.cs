@@ -29,7 +29,7 @@ namespace CoreMessageBus
             _logger?.LogTrace($"Resolved {handlers.Count()} handlers for {typeof(TMessage)}");
             foreach (var handler in handlers)
             {
-                _logger?.LogTrace($"Executing handler {handler.GetType()}");
+                _logger?.LogDebug($"Executing handler {handler.GetType()}");
                 handler.Handle(message);
             }
         }

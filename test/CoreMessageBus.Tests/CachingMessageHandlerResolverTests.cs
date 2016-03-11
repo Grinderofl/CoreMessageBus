@@ -18,7 +18,7 @@ namespace CoreMessageBus.Tests
             registry.Setup(x => x.HandlersFor<Message>()).Returns(new [] {typeof(MessageHandler)});
             factory.Setup(x => x.Create<Message>(It.IsAny<Type>())).Returns(handler);
 
-            var resolver = new CachingMessageHandlerResolver(factory.Object, registry.Object);
+            var resolver = new CachingMessageHandlerResolver(factory.Object, registry.Object, TODO);
 
             var resolved = resolver.Resolve<Message>().FirstOrDefault();
             var resolved2 = resolver.Resolve<Message>().FirstOrDefault();

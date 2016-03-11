@@ -13,8 +13,8 @@ namespace CoreMessageBus
             var configuration = new MessageBusConfiguration();
             configurationAction(configuration);
             services.AddSingleton(configuration);
-            services.AddScoped<MessageHandlerRegistry>(s => s.GetService<MessageBusConfiguration>().Registry);
             services
+                .AddScoped<MessageHandlerRegistry>(s => s.GetService<MessageBusConfiguration>().Registry)
                 .AddScoped<IMessageHandlerResolver, MessageHandlerResolver>()
                 .AddScoped<IMessageHandlerFactory, MessageHandlerFactory>()
                 .AddScoped<IMessageBus, MessageBus>();
