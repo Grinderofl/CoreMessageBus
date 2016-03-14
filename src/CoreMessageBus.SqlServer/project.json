@@ -6,7 +6,8 @@
   "projectUrl": "https://github.com/Grinderofl/CoreMessageBus",
   "licenseUrl": "https://github.com/Grinderofl/CoreMessageBus/blob/master/LICENSE.md",
   "dependencies": {
-    "CoreMessageBus": "1.0.0-*"
+    "CoreMessageBus": "1.0.0-*",
+    "Newtonsoft.Json": "8.0.2"
   },
 
   "frameworks": {

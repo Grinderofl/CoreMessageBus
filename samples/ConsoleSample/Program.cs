@@ -1,19 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CoreMessageBus;
 using CoreMessageBus.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace ConsoleSample
 {
     public class Program
     {
+        
         public static void Main(string[] args)
         {
+            var settings = new JsonSerializerSettings()
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            };
+            var queueItem = new QueueItem()
+            {
+                ContentType = "application/json",
+                Created = DateTime.Now,
+                Data = new Message() { Name = "Hi"},
+                Type = typeof(Message),
+                Encoding = Encoding.UTF8,
+                MessageId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
+            };
+            var dataStr = JsonConvert.SerializeObject(queueItem.Data, settings);
+            var str = JsonConvert.SerializeObject(queueItem, settings);
+
+            var provider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
             var operations = new DatabaseOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue");
-            var processor = new SqlServerMessageQueueProcessor(operations, null);
+            var processor = new SqlServerMessageQueueProcessor(operations, null,
+                new SqlServerQueueService(operations, provider.GetService<IMessageBus>()));
+
             processor.Start();
             Console.ReadKey();
             //var serviceProvider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
@@ -22,17 +45,7 @@ namespace ConsoleSample
             //bus.Send(new Message());
         }
 
-        private class Message : IMessage
-        {
-        }
-
-        private class MessageHandlerOne : IMessageHandler<Message>
-        {
-            public void Handle(Message message)
-            {
-                Console.WriteLine("Hello world");
-            }
-        }
+       
 
         private class MyMessageHandler : IMessageHandler<MyMessage>
         {
@@ -56,6 +69,17 @@ namespace ConsoleSample
         {
         }
     }
+    public class Message : IMessage
+    {
+        public string Name { get; set; }
+    }
 
-    
+    public class MessageHandlerOne : IMessageHandler<Message>
+    {
+        public void Handle(Message message)
+        {
+            Console.WriteLine("{0} world", message.Name);
+        }
+    }
+
 }
