@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 
-namespace CoreMessageBus.SqlServer
+namespace CoreMessageBus.ServiceBus
 {
-    public interface IDatabaseOperations
+    public interface IQueueOperations
     {
         QueueItem Peek();
         Task Dequeue(QueueItem item);

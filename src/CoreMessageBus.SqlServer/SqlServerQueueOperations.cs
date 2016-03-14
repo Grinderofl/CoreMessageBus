@@ -4,16 +4,17 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using CoreMessageBus.ServiceBus;
 using Newtonsoft.Json;
 
 namespace CoreMessageBus.SqlServer
 {
-    public class DatabaseOperations : IDatabaseOperations
+    public class SqlServerQueueOperations : IQueueOperations
     {
         private readonly string _connectionString;
         private readonly SqlQueries _queries;
 
-        public DatabaseOperations(string connectionString, string schemaName, string tableName)
+        public SqlServerQueueOperations(string connectionString, string schemaName, string tableName)
         {
             _queries = new SqlQueries(schemaName, tableName);
             _connectionString = connectionString;

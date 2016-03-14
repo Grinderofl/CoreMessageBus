@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace CoreMessageBus.SqlServer
+namespace CoreMessageBus.ServiceBus
 {
     public class QueueItem
     {

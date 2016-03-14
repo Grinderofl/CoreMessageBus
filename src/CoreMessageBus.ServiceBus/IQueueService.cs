@@ -1,4 +1,4 @@
-namespace CoreMessageBus.SqlServer
+namespace CoreMessageBus.ServiceBus
 {
     public interface IQueueService
     {

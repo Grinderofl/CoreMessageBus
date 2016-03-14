@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoreMessageBus;
+using CoreMessageBus.ServiceBus;
 using CoreMessageBus.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -33,9 +34,8 @@ namespace ConsoleSample
             var str = JsonConvert.SerializeObject(queueItem, settings);
 
             var provider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
-            var operations = new DatabaseOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue");
-            var processor = new SqlServerMessageQueueProcessor(operations, null,
-                new SqlServerQueueService(operations, provider.GetService<IMessageBus>()));
+            var operations = new SqlServerQueueOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue");
+            var processor = new ServiceBusClient(new QueueService(operations, provider.GetService<IMessageBus>()));
 
             processor.Start();
             Console.ReadKey();
@@ -69,17 +69,4 @@ namespace ConsoleSample
         {
         }
     }
-    public class Message : IMessage
-    {
-        public string Name { get; set; }
-    }
-
-    public class MessageHandlerOne : IMessageHandler<Message>
-    {
-        public void Handle(Message message)
-        {
-            Console.WriteLine("{0} world", message.Name);
-        }
-    }
-
 }
