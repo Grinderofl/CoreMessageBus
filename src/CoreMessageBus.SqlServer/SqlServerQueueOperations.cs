@@ -70,19 +70,19 @@ namespace CoreMessageBus.SqlServer
             return default(T);
         }
 
-        public async Task Dequeue(QueueItem item)
+        public void Dequeue(QueueItem item)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 var command = new SqlCommand(_queries.DeQueue, connection);
                 command.Parameters.AddWithValue("@Id", item.Id);
-                await connection.OpenAsync();
-                await command.ExecuteNonQueryAsync();
+                connection.Open();
+                command.ExecuteNonQuery();
             }
         }
 
         public void Queue(QueueItem item)
-        {    
+        {   
             using (var connection = new SqlConnection(_connectionString))
             {
                 var insertCommand = new SqlCommand(_queries.Queue, connection);
