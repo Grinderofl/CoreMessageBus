@@ -15,10 +15,4 @@ namespace CoreMessageBus.ServiceBus
         public Type Type { get; set; }
         public Queue Queue { get; set; }
     }
-
-    public class Queue
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
 }

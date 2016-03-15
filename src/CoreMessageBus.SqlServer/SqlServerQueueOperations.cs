@@ -11,29 +11,6 @@ using Newtonsoft.Json;
 
 namespace CoreMessageBus.SqlServer
 {
-    public class SqlServerQueueOptions : QueueOptions
-    {
-        public SqlServerQueueOptions(QueueOptions options)
-        {
-            this.HandlesQueues = options.HandlesQueues;
-        }
-        public string ConnectionString { get; set; }
-        public string SchemaName { get; set; } = "dbo";
-        public string QueuesTableName { get; set; } = "SqlServerQueues";
-        public string QueueTableName { get; set; } = "SqlServerQueue";
-    }
-
-    public static class ServiceBusOptionsExtensions
-    {
-        public static ServiceBusOptions UseSqlServer(this ServiceBusOptions options, string connectionString)
-        {
-            options.Operations<SqlServerQueueOperations>();
-            var queueOptions = new SqlServerQueueOptions(options.QueueOptions) {ConnectionString = connectionString};
-            options.QueueOptions = queueOptions;
-            return options;
-        }
-    }
-
     public class SqlServerQueueOperations : IQueueOperations
     {
         private readonly SqlServerQueueOptions _options;
@@ -173,21 +150,6 @@ namespace CoreMessageBus.SqlServer
                 connection.Open();
                 command.ExecuteNonQuery();
             }
-        }
-    }
-
-    public class QueueNotFoundException : Exception
-    {
-        public QueueNotFoundException()
-        {
-        }
-
-        public QueueNotFoundException(string message) : base(message)
-        {
-        }
-
-        public QueueNotFoundException(string message, Exception innerException) : base(message, innerException)
-        {
         }
     }
 }
