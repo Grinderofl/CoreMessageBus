@@ -15,7 +15,7 @@ namespace CoreMessageBus.ServiceBus.Tests
         {
 
             var qsMock = new Mock<IQueueSelector>();
-            var queue = new Queue(1, "Queue");
+            var queue = new Domain.Queue(1, "Queue");
             qsMock.Setup(x => x.GetQueue<TestMessage>()).Returns(queue);
             var factory = new QueueItemFactory(new JsonDataSerializer(), new DateTimeProvider(), new IdGenerator(),
                 qsMock.Object);
