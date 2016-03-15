@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CoreMessageBus;
 using CoreMessageBus.ServiceBus;
 using CoreMessageBus.ServiceBus.Extensions;
+using CoreMessageBus.ServiceBus.Tests;
 using CoreMessageBus.SqlServer;
 using CoreMessageBus.SqlServer.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,10 @@ namespace ConsoleSample
         
         public static void Main(string[] args)
         {
+            var tests = new QueueServiceTests();
+            tests.Processes_items();
+            tests.Updates_queue_on_error();
+            tests.Updates_queue_on_success();
             //var settings = new JsonSerializerSettings()
             //{
             //    PreserveReferencesHandling = PreserveReferencesHandling.Objects

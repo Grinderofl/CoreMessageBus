@@ -13,13 +13,20 @@ namespace CoreMessageBus.ServiceBus.Extensions
             var options = new ServiceBusOptions(services);
             optionsAction(options);
 
-            services.TryAddScoped<IServiceBus, ServiceBus>();
+            services.TryAddEnumerable(new ServiceCollection()
+                .AddScoped<IServiceBus, ServiceBus>()
+                .AddScoped<QueueSelector>()
+                .AddScoped<IDateTimeProvider, DateTimeProvider>()
+                .AddScoped<IIdGenerator, IdGenerator>()
+                .AddScoped<IDataSerializer, JsonDataSerializer>()
+                .AddScoped<QueueItemFactory>()
+                );
+
             services.TryAddSingleton(options);
             
             services.TryAdd(ServiceDescriptor.Singleton(options.QueueOptions.GetType(), options.QueueOptions));
             services.TryAdd(ServiceDescriptor.Singleton(typeof(QueueOptions), options.QueueOptions));
-
-
+            
             if (!options.SendOnlyServiceBus)
             {
                 services.TryAddScoped<IServiceBusClient, ServiceBusClient>();

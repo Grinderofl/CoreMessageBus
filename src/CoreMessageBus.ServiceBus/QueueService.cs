@@ -22,6 +22,8 @@ namespace CoreMessageBus.ServiceBus
         public void ProcessNextItem()
         {
             var item = _queueOperations.Peek();
+            if (item == null)
+                return;
             _queueOperations.Dequeue(item);
             var sendMethod = typeof(IMessageBus).GetTypeInfo().GetDeclaredMethod("Send");
             var sendGenericMethod = sendMethod.MakeGenericMethod(item.Type);
@@ -31,9 +33,17 @@ namespace CoreMessageBus.ServiceBus
                 sendGenericMethod.Invoke(MessageBus, new[] {message});
                 _queueOperations.Success(item);
             }
-            catch (MessageBusException ex)
+            catch (TargetInvocationException ex)
             {
-                _queueOperations.Error(ex, item.Id);
+                if (ex.InnerException is MessageBusException)
+                {
+                    _queueOperations.Error(ex.InnerException as MessageBusException, item.Id);
+                }
+                else
+                {
+                    throw;
+                }
+
             }
         }
     }

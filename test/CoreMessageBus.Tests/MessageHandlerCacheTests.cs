@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Xunit;
 
 namespace CoreMessageBus.Tests
