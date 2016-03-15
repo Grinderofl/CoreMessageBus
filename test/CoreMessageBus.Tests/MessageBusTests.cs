@@ -1,3 +1,4 @@
+using CoreMessageBus.Internal;
 using Moq;
 using Xunit;
 

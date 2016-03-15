@@ -1,5 +1,7 @@
 ﻿using System;
 using CoreMessageBus.ServiceBus.Configuration;
+using CoreMessageBus.ServiceBus.Internal;
+using CoreMessageBus.ServiceBus.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

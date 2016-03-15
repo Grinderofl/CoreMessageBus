@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreMessageBus.Annotations;
+using CoreMessageBus.Internal;
 using Xunit;
 
 namespace CoreMessageBus.Tests

@@ -1,4 +1,5 @@
 using System;
+using CoreMessageBus.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

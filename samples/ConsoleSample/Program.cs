@@ -19,10 +19,8 @@ namespace ConsoleSample
         
         public static void Main(string[] args)
         {
-            var tests = new QueueServiceTests();
-            tests.Processes_items();
-            tests.Updates_queue_on_error();
-            tests.Updates_queue_on_success();
+            var tests = new QueueItemFactoryTests();
+            tests.Creates_queueitem();
             //var settings = new JsonSerializerSettings()
             //{
             //    PreserveReferencesHandling = PreserveReferencesHandling.Objects

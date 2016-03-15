@@ -1,4 +1,6 @@
 using System;
+using CoreMessageBus.Annotations;
+using CoreMessageBus.Internal;
 using Xunit;
 
 namespace CoreMessageBus.Tests

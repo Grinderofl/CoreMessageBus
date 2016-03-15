@@ -1,4 +1,5 @@
 using System;
+using CoreMessageBus.ServiceBus.Queue;
 
 namespace CoreMessageBus.ServiceBus
 {

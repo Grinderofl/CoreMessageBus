@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreMessageBus.ServiceBus.Infrastructure;
+using CoreMessageBus.ServiceBus.Queue;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreMessageBus.ServiceBus.Configuration

@@ -1,4 +1,6 @@
 using System;
+using CoreMessageBus.Configuration;
+using CoreMessageBus.Internal;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 

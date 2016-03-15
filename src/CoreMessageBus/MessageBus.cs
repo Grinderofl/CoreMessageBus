@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreMessageBus.Annotations;
+using CoreMessageBus.Internal;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 

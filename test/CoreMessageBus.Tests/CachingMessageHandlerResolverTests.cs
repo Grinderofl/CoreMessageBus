@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using CoreMessageBus.Internal;
 using Moq;
 using Xunit;
 

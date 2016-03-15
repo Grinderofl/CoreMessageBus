@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreMessageBus.ServiceBus.Domain;
+using CoreMessageBus.ServiceBus.Queue;
 using Moq;
 using Xunit;
 

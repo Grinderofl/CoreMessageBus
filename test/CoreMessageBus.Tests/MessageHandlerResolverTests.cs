@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoreMessageBus.Annotations;
+using CoreMessageBus.Internal;
 using Moq;
 using Xunit;
 
