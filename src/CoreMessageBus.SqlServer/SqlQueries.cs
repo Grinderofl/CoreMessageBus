@@ -2,33 +2,50 @@ namespace CoreMessageBus.SqlServer
 {
     public class SqlQueries
     {
-        public SqlQueries(string schemaName, string tableName)
-        {
-            var tableNameWithSchema = string.Format(
-                "{0}.{1}", DelimitIdentifier(schemaName), DelimitIdentifier(tableName));
-
-            PeekQueue = string.Format(_peekFormat, tableNameWithSchema);
-            DeQueue = string.Format(_deQueue, tableNameWithSchema);
-            Error = string.Format(_error, tableNameWithSchema);
-            Queue = string.Format(_queue, tableNameWithSchema);
-        }
-
         private string DelimitIdentifier(string identifier)
         {
             return "[" + identifier.Replace("]", "]]") + "]";
         }
 
-        private string _peekFormat = "SELECT TOP (1) Id, MessageId, ContentType, Encoding, Type, Data, Created, Deferred, Status FROM {0} WHERE (Deferred IS NULL OR Deferred < getdate()) AND Status = 'Queued'  ORDER BY Deferred ASC, Created DESC";
+        private string _peekFormat = 
+            "SELECT TOP (1) Id, MessageId, ContentType, Encoding, Type, Data, Created, Deferred, Status, {0}.QueueId AS QueueId, {1}.Name AS QueueName " +
+            "FROM {0} " +
+            "LEFT JOIN {1} ON {1}.QueueId = {0}.QueueId " +
+            "WHERE (Deferred IS NULL OR Deferred < getdate()) " +
+            "AND Status = 'Queued' " +
+            "AND {1}.Name IN ({{QueueName}}) " +
+            "ORDER BY Deferred ASC, Created DESC ";
         private string _deQueue = "UPDATE {0} SET Status = 'Dequeued' WHERE Id = @Id";
-        private string _error = "UPDATE {0} SET Status = 'Error' WHERE Id = @Id";
+        private string _error = "UPDATE {0} SET Status = 'Error', Error = @Error  WHERE Id = @Id";
+        private string _processed = "UPDATE {0} SET Status = 'Processed' WHERE Id = @Id";
 
         private string _queue = "INSERT INTO {0} " +
-                                "(Id, MessageId, ContentType, Encoding, Type, Data, Created, Deferred, Status)" +
-                                "VALUES (@Id, @MessageId, @ContentType, @Encoding, @Type, @Data, @Created, @Deferred, 'Queued')";
+                                "(Id, MessageId, ContentType, Encoding, Type, Data, Created, Deferred, Status, QueueId)" +
+                                "VALUES (@Id, @MessageId, @ContentType, @Encoding, @Type, @Data, @Created, @Deferred, 'Queued', @QueueId)";
 
+        private string _queueId = "SELECT TOP (1) QueueId FROM {0} WHERE Name = @Name";
+
+        public SqlQueries(SqlServerQueueOptions options)
+        {
+            var queueTableNameWithSchema = $"{DelimitIdentifier(options.SchemaName)}.{DelimitIdentifier(options.QueueTableName)}";
+            var queuesTableNameWithSchema =
+                $"{DelimitIdentifier(options.SchemaName)}.{DelimitIdentifier(options.QueuesTableName)}";
+
+            PeekQueue = string.Format(_peekFormat, queueTableNameWithSchema, queuesTableNameWithSchema);
+            DeQueue = string.Format(_deQueue, queueTableNameWithSchema);
+            Error = string.Format(_error, queueTableNameWithSchema);
+            Queue = string.Format(_queue, queueTableNameWithSchema);
+            QueueId = string.Format(_queueId, queuesTableNameWithSchema);
+            Processed = string.Format(_processed, queueTableNameWithSchema);
+        }
+
+        public string Processed { get; }
         public string PeekQueue { get; }
         public string DeQueue { get; }
         public string Error { get; }
         public string Queue { get; }
+        public string QueueId { get; }
     }
+
+    // http://stackoverflow.com/questions/2377506/pass-array-parameter-in-sqlcommand
 }

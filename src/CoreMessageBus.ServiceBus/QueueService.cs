@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 
 namespace CoreMessageBus.ServiceBus
@@ -23,10 +24,18 @@ namespace CoreMessageBus.ServiceBus
         {
             var item = _queueOperations.Peek();
             _queueOperations.Dequeue(item);
-            var sendMethod = typeof (IMessageBus).GetTypeInfo().GetDeclaredMethod("Send");
+            var sendMethod = typeof(IMessageBus).GetTypeInfo().GetDeclaredMethod("Send");
             var sendGenericMethod = sendMethod.MakeGenericMethod(item.Type);
             var message = item.Data;
-            sendGenericMethod.Invoke(MessageBus, new[] {message});
+            try
+            {
+                sendGenericMethod.Invoke(MessageBus, new[] {message});
+                _queueOperations.Success(item);
+            }
+            catch (MessageBusException ex)
+            {
+                _queueOperations.Error(ex, item.Id);
+            }
         }
     }
 

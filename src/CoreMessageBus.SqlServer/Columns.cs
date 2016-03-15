@@ -13,6 +13,10 @@
             public const string Created = "Created";
             public const string Deferred = "Deferred";
             public const string Status = "Status";
+            public const string QueueId = "QueueId";
+            public const string QueueName = "QueueName";
+
+            public const string Name = "Name";
         }
 
         public static class Indexes
@@ -26,6 +30,8 @@
             public const int CreatedIndex = 6;
             public const int DeferredIndex = 7;
             public const int StatusIndex = 8;
+            public const int QueueIdIndex = 9;
+            public const int QueueNameIndex = 10;
         }
     }
 }

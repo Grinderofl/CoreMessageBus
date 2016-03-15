@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -6,15 +7,22 @@ namespace CoreMessageBus.ServiceBus
 {
     public class ServiceBus : IServiceBus
     {
-        private IQueueOperations _queueOperations;
+        private readonly IQueueOperations _queueOperations;
+        private readonly QueueOptions _queueOptions;
 
-        public ServiceBus(IQueueOperations queueOperations)
+        public ServiceBus(IQueueOperations queueOperations, QueueOptions queueOptions)
         {
             _queueOperations = queueOperations;
+            _queueOptions = queueOptions;
         }
 
         public void Send<TMessage>(TMessage message)
         {
+            var queueName =
+                _queueOptions.HandlesQueues.FirstOrDefault(x => x.Value.Contains(typeof (TMessage))).Key;
+
+            var queueId = _queueOperations.GetQueueId(queueName);
+
             var queueItem = new QueueItem()
             {
                 Type = typeof (TMessage),
@@ -26,7 +34,12 @@ namespace CoreMessageBus.ServiceBus
                 }),
                 Encoding = Encoding.UTF8,
                 Id = Guid.NewGuid(),
-                MessageId = Guid.NewGuid()
+                MessageId = Guid.NewGuid(),
+                Queue = new Queue()
+                {
+                    Name = queueName,
+                    Id = queueId
+                }
             };
             _queueOperations.Queue(queueItem);
         }

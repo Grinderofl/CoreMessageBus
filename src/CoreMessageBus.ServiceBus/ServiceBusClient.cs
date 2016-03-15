@@ -8,10 +8,12 @@ namespace CoreMessageBus.ServiceBus
         private bool _started;
 
         private readonly IQueueService _queueService;
+        private readonly QueueOptions _options;
 
-        public ServiceBusClient(IQueueService queueService)
+        public ServiceBusClient(IQueueService queueService, QueueOptions options)
         {
             _queueService = queueService;
+            _options = options;
         }
 
         public void Start()
@@ -23,11 +25,10 @@ namespace CoreMessageBus.ServiceBus
                 {
                     if (!_queueService.HasQueue())
                     {
-                        Thread.Sleep(500);
+                        Thread.Sleep(_options.SleepTime);
                         continue;
                     }
                     _queueService.ProcessNextItem();
-
                 }
             });
             _thread.Start();

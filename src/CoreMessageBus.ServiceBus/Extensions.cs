@@ -16,7 +16,11 @@ namespace CoreMessageBus.ServiceBus
             optionsAction(options);
 
             services.TryAddScoped<IServiceBus, ServiceBus>();
-            services.TryAddSingleton(options.QueueOperations);
+            services.TryAddSingleton(options);
+            services.TryAddScoped(typeof(IQueueOperations), options.QueueOperations);
+            services.TryAdd(ServiceDescriptor.Singleton(options.QueueOptions.GetType(), options.QueueOptions));
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(QueueOptions), options.QueueOptions));
+
 
             if (!options.SendOnlyServiceBus)
             {

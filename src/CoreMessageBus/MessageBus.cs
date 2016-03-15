@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
@@ -30,7 +27,14 @@ namespace CoreMessageBus
             foreach (var handler in handlers)
             {
                 _logger?.LogDebug($"Executing handler {handler.GetType()}");
-                handler.Handle(message);
+                try
+                {
+                    handler.Handle(message);
+                }
+                catch (Exception ex)
+                {
+                    throw new MessageBusException($"Message handler failed while executing {handler.GetType()}", ex);
+                }
             }
         }
 
@@ -41,6 +45,21 @@ namespace CoreMessageBus
             {
                 Send(message);
             });
+        }
+    }
+
+    public class MessageBusException : Exception
+    {
+        public MessageBusException()
+        {
+        }
+
+        public MessageBusException(string message) : base(message)
+        {
+        }
+
+        public MessageBusException(string message, Exception innerException) : base(message, innerException)
+        {
         }
     }
 }

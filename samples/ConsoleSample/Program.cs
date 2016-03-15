@@ -16,43 +16,51 @@ namespace ConsoleSample
         
         public static void Main(string[] args)
         {
-            var settings = new JsonSerializerSettings()
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            };
-            var queueItem = new QueueItem()
-            {
-                ContentType = "application/json",
-                Created = DateTime.Now,
-                Data = new Message() { Name = "Hi"},
-                Type = typeof(Message),
-                Encoding = Encoding.UTF8,
-                MessageId = Guid.NewGuid(),
-                Id = Guid.NewGuid(),
-            };
-            var dataStr = JsonConvert.SerializeObject(queueItem.Data, settings);
-            var str = JsonConvert.SerializeObject(queueItem, settings);
+            //var settings = new JsonSerializerSettings()
+            //{
+            //    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            //};
+            //var queueItem = new QueueItem()
+            //{
+            //    ContentType = "application/json",
+            //    Created = DateTime.Now,
+            //    Data = new Message() { Name = "Hi"},
+            //    Type = typeof(Message),
+            //    Encoding = Encoding.UTF8,
+            //    MessageId = Guid.NewGuid(),
+            //    Id = Guid.NewGuid(),
+            //};
+            //var dataStr = JsonConvert.SerializeObject(queueItem.Data, settings);
+            //var str = JsonConvert.SerializeObject(queueItem, settings);
 
             var provider = new ServiceCollection()
                 .AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>())
-                .AddServiceBus(x => x.SendOnly()
-                    .Operations(new SqlServerQueueOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue"))
+                .AddServiceBus(x => x
+                    .UseSqlServer("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;")
+                    .Handles("Queue1", new[] {typeof(Message)})
                 )
                 .BuildServiceProvider();
-            try
-            {
-                var bus = provider.GetService<IServiceBus>();
-                bus.Send(new Message() {Name = "World"});
-            }
-            catch (Exception ex)
-            {
+            //try
+            //{
+            //    var bus = provider.GetService<IServiceBus>();
+            //    bus.Send(new Message() {Name = "World"});
+            //}
+            //catch (Exception ex)
+            //{
                 
-            }
+            //}
 
             //var operations = new SqlServerQueueOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue");
             //var client = new ServiceBusClient(new QueueService(operations, provider.GetService<IMessageBus>()));
-            //var client = provider.GetService<IServiceBusClient>();
-            //client.Start();
+            try
+            {
+                var client = provider.GetService<IServiceBusClient>();
+                client.Start();
+            }
+            catch (Exception e)
+            {
+                
+            }
             Console.ReadKey();
             //var serviceProvider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
             //var bus = serviceProvider.GetService<IMessageBus>();

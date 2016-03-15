@@ -1,4 +1,7 @@
-﻿namespace CoreMessageBus.ServiceBus
+﻿using System;
+using System.Collections.Generic;
+
+namespace CoreMessageBus.ServiceBus
 {
     public class ServiceBusOptions
     {
@@ -10,13 +13,20 @@
             return this;
         }
 
-        public IQueueOperations QueueOperations { get; protected set; }
+        public Type QueueOperations { get; protected set; }
 
-        public ServiceBusOptions Operations<TOperations>(TOperations instance) where TOperations : IQueueOperations
+        public ServiceBusOptions Operations<TOperations>() where TOperations : IQueueOperations
         {
-            QueueOperations = instance;
+            QueueOperations = typeof(TOperations);
             return this;
         }
 
+        public ServiceBusOptions Handles(string queueName, IEnumerable<Type> messageTypes)
+        {
+            QueueOptions.Queue(queueName, messageTypes);
+            return this;
+        }
+
+        public QueueOptions QueueOptions { get; set; } = new QueueOptions();
     }
 }
