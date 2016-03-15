@@ -10,7 +10,7 @@ namespace CoreMessageBus.SqlServer
             PeekQueue = string.Format(_peekFormat, tableNameWithSchema);
             DeQueue = string.Format(_deQueue, tableNameWithSchema);
             Error = string.Format(_error, tableNameWithSchema);
-
+            Queue = string.Format(_queue, tableNameWithSchema);
         }
 
         private string DelimitIdentifier(string identifier)
@@ -21,8 +21,14 @@ namespace CoreMessageBus.SqlServer
         private string _peekFormat = "SELECT TOP (1) Id, MessageId, ContentType, Encoding, Type, Data, Created, Deferred, Status FROM {0} WHERE (Deferred IS NULL OR Deferred < getdate()) AND Status = 'Queued'  ORDER BY Deferred ASC, Created DESC";
         private string _deQueue = "UPDATE {0} SET Status = 'Dequeued' WHERE Id = @Id";
         private string _error = "UPDATE {0} SET Status = 'Error' WHERE Id = @Id";
+
+        private string _queue = "INSERT INTO {0} " +
+                                "(Id, MessageId, ContentType, Encoding, Type, Data, Created, Deferred, Status)" +
+                                "VALUES (@Id, @MessageId, @ContentType, @Encoding, @Type, @Data, @Created, @Deferred, 'Queued')";
+
         public string PeekQueue { get; }
         public string DeQueue { get; }
         public string Error { get; }
+        public string Queue { get; }
     }
 }

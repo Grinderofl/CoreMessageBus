@@ -33,11 +33,26 @@ namespace ConsoleSample
             var dataStr = JsonConvert.SerializeObject(queueItem.Data, settings);
             var str = JsonConvert.SerializeObject(queueItem, settings);
 
-            var provider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
-            var operations = new SqlServerQueueOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue");
-            var processor = new ServiceBusClient(new QueueService(operations, provider.GetService<IMessageBus>()));
+            var provider = new ServiceCollection()
+                .AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>())
+                .AddServiceBus(x => x.SendOnly()
+                    .Operations(new SqlServerQueueOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue"))
+                )
+                .BuildServiceProvider();
+            try
+            {
+                var bus = provider.GetService<IServiceBus>();
+                bus.Send(new Message() {Name = "World"});
+            }
+            catch (Exception ex)
+            {
+                
+            }
 
-            processor.Start();
+            //var operations = new SqlServerQueueOperations("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;", "dbo", "SqlServerQueue");
+            //var client = new ServiceBusClient(new QueueService(operations, provider.GetService<IMessageBus>()));
+            //var client = provider.GetService<IServiceBusClient>();
+            //client.Start();
             Console.ReadKey();
             //var serviceProvider = new ServiceCollection().AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>()).BuildServiceProvider();
             //var bus = serviceProvider.GetService<IMessageBus>();

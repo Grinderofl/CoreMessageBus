@@ -6,5 +6,6 @@ namespace CoreMessageBus.ServiceBus
     {
         QueueItem Peek();
         Task Dequeue(QueueItem item);
+        void Queue(QueueItem item);
     }
 }

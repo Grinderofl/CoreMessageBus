@@ -7,6 +7,7 @@
   "dependencies": {
     "Microsoft.Extensions.Configuration.Json": "1.0.0-*",
     "CoreMessageBus.SqlServer": "1.0.0-*",
+    "CoreMessageBus.ServiceBus": "1.0.0-*",
     "Microsoft.NETCore.Platforms": "1.0.1-*"
   },
 
@@ -15,7 +16,11 @@
   },
 
   "frameworks": {
-    "net451": { },
+    "net451": {
+      "frameworkAssemblies": {
+        "System.ComponentModel": "4.0.0.0"
+      }
+    },
     "dnxcore50": {
       "imports": "portable-452+win81",
       "dependencies": {

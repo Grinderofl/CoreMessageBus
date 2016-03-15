@@ -74,10 +74,30 @@ namespace CoreMessageBus.SqlServer
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var command = new SqlCommand(_queries.DeQueue);
+                var command = new SqlCommand(_queries.DeQueue, connection);
                 command.Parameters.AddWithValue("@Id", item.Id);
                 await connection.OpenAsync();
                 await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        public void Queue(QueueItem item)
+        {    
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var insertCommand = new SqlCommand(_queries.Queue, connection);
+                insertCommand.Parameters
+                    .AddParameter(Columns.Names.Id, item.Id)
+                    .AddParameter(Columns.Names.MessageId, item.MessageId)
+                    .AddParameter(Columns.Names.Type, item.Type.AssemblyQualifiedName)
+                    .AddParameter(Columns.Names.ContentType, item.ContentType)
+                    .AddParameter(Columns.Names.Created, item.Created)
+                    .AddParameter(Columns.Names.Deferred, item.Deferred)
+                    .AddParameter(Columns.Names.Data, item.Data)
+                    //.AddParameter(Columns.Names.Status, "Queued")
+                    .AddParameter(Columns.Names.Encoding, item.Encoding.WebName);
+                connection.Open();
+                insertCommand.ExecuteNonQuery();
             }
         }
     }
