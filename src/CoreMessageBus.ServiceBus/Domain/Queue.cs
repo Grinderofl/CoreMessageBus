@@ -1,4 +1,4 @@
-namespace CoreMessageBus.ServiceBus
+namespace CoreMessageBus.ServiceBus.Domain
 {
     public class Queue
     {

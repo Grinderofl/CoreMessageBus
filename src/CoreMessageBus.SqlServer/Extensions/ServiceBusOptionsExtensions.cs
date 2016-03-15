@@ -1,4 +1,6 @@
 using CoreMessageBus.ServiceBus;
+using CoreMessageBus.ServiceBus.Configuration;
+using CoreMessageBus.ServiceBus.Infrastructure.Extensions;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CoreMessageBus.SqlServer.Extensions

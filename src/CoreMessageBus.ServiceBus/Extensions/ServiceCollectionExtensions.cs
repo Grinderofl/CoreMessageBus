@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CoreMessageBus.ServiceBus.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace CoreMessageBus.ServiceBus
+namespace CoreMessageBus.ServiceBus.Extensions
 {
     public static class ServiceCollectionExtensions
     {

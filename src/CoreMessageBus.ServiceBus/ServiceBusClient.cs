@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using CoreMessageBus.ServiceBus.Configuration;
 
 namespace CoreMessageBus.ServiceBus
 {

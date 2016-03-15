@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoreMessageBus.ServiceBus.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CoreMessageBus.ServiceBus
+namespace CoreMessageBus.ServiceBus.Configuration
 {
     public class ServiceBusOptions : IServiceBusInfrastructure
     {
@@ -40,18 +41,5 @@ namespace CoreMessageBus.ServiceBus
         public QueueOptions QueueOptions { get; set; } = new QueueOptions();
 
         IServiceCollection IServiceBusInfrastructure.Services => _services;
-    }
-
-    public static class ServiceBusInfrastructureExtensions
-    {
-        public static IServiceBusInfrastructure GetInfrastructure<T>(this T infrastructure) where T : IServiceBusInfrastructure
-        {
-            return (IServiceBusInfrastructure) infrastructure;
-        }
-    }
-
-    public interface IServiceBusInfrastructure
-    {
-        IServiceCollection Services { get; }
     }
 }

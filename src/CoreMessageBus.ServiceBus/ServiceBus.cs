@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Text;
+using CoreMessageBus.ServiceBus.Configuration;
+using CoreMessageBus.ServiceBus.Domain;
 using Newtonsoft.Json;
 
 namespace CoreMessageBus.ServiceBus

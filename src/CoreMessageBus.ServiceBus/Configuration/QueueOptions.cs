@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CoreMessageBus.ServiceBus
+namespace CoreMessageBus.ServiceBus.Configuration
 {
     public class QueueOptions
     {

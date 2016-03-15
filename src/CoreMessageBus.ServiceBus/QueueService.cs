@@ -18,8 +18,7 @@ namespace CoreMessageBus.ServiceBus
         {
             return _queueOperations.Peek() != null;
         }
-
-
+        
         public void ProcessNextItem()
         {
             var item = _queueOperations.Peek();

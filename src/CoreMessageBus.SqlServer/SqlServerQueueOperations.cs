@@ -7,6 +7,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using CoreMessageBus.ServiceBus;
+using CoreMessageBus.ServiceBus.Configuration;
+using CoreMessageBus.ServiceBus.Domain;
 using CoreMessageBus.SqlServer.Extensions;
 using Newtonsoft.Json;
 
@@ -152,25 +154,5 @@ namespace CoreMessageBus.SqlServer
                 command.ExecuteNonQuery();
             }
         }
-    }
-
-    public interface IConnectionStringSource
-    {
-        string GetConnectionString();
-    }
-
-    public class DefaultConnectionStringSource : IConnectionStringSource
-    {
-        private readonly string _connectionString;
-
-        public DefaultConnectionStringSource(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
-        public string GetConnectionString() => _connectionString;
-
-
-
     }
 }
