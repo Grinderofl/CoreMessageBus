@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreMessageBus.ServiceBus
 {
-    public class ServiceBusOptions
+    public class ServiceBusOptions : IServiceBusInfrastructure
     {
+        private readonly IServiceCollection _services;
+
+        public ServiceBusOptions(IServiceCollection services)
+        {
+            _services = services;
+        }
+
         public bool SendOnlyServiceBus { get; protected set; }
+
+        
 
         public ServiceBusOptions SendOnly(bool sendOnly = true)
         {
@@ -28,5 +38,20 @@ namespace CoreMessageBus.ServiceBus
         }
 
         public QueueOptions QueueOptions { get; set; } = new QueueOptions();
+
+        IServiceCollection IServiceBusInfrastructure.Services => _services;
+    }
+
+    public static class ServiceBusInfrastructureExtensions
+    {
+        public static IServiceBusInfrastructure GetInfrastructure<T>(this T infrastructure) where T : IServiceBusInfrastructure
+        {
+            return (IServiceBusInfrastructure) infrastructure;
+        }
+    }
+
+    public interface IServiceBusInfrastructure
+    {
+        IServiceCollection Services { get; }
     }
 }

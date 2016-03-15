@@ -7,22 +7,25 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using CoreMessageBus.ServiceBus;
+using CoreMessageBus.SqlServer.Extensions;
 using Newtonsoft.Json;
 
 namespace CoreMessageBus.SqlServer
 {
     public class SqlServerQueueOperations : IQueueOperations
     {
-        private readonly SqlServerQueueOptions _options;
-        private readonly string _connectionString;
+        private readonly QueueOptions _queueOptions;
+        private readonly IConnectionStringSource _connectionStringSource;
         private readonly SqlQueries _queries;
 
-        public SqlServerQueueOperations(SqlServerQueueOptions options)
+        public SqlServerQueueOperations(SqlServerQueueOperationOptions operationOptions, QueueOptions queueOptions, IConnectionStringSource connectionStringSource)
         {
-            _options = options;
-            _queries = new SqlQueries(options);
-            _connectionString = options.ConnectionString;
+            _queueOptions = queueOptions;
+            _connectionStringSource = connectionStringSource;
+            _queries = new SqlQueries(operationOptions);
         }
+
+        private string ConnectionString => _connectionStringSource.GetConnectionString();
 
         public QueueItem Peek()
         {
@@ -30,11 +33,11 @@ namespace CoreMessageBus.SqlServer
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             };
-            Debug.WriteLine("Creating connection...");
-            using (var connection = new SqlConnection(_connectionString))
+
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 var command = new SqlCommand(_queries.PeekQueue, connection);
-                command.AddArrayParameters(_options.HandlesQueues.Select(x => x.Key), "QueueName");
+                command.AddArrayParameters(_queueOptions.HandlesQueues.Select(x => x.Key), "QueueName");
                 connection.Open();
                 var reader = command.ExecuteReader(CommandBehavior.SingleRow);
                 if (reader.Read())
@@ -67,8 +70,6 @@ namespace CoreMessageBus.SqlServer
                 }
                 return null;
             }
-
-            
         }
 
         private T GetValue<T>(SqlDataReader reader, int index)
@@ -80,7 +81,7 @@ namespace CoreMessageBus.SqlServer
 
         public void Dequeue(QueueItem item)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 var command = new SqlCommand(_queries.DeQueue, connection);
                 command.Parameters.AddWithValue("@Id", item.Id);
@@ -91,7 +92,7 @@ namespace CoreMessageBus.SqlServer
 
         public void Queue(QueueItem item)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 var insertCommand = new SqlCommand(_queries.Queue, connection);
                 insertCommand.Parameters
@@ -112,7 +113,7 @@ namespace CoreMessageBus.SqlServer
 
         public int GetQueueId(string queueName)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 var command = new SqlCommand(_queries.QueueId, connection);
                 command.Parameters.AddParameter(Columns.Names.Name, queueName);
@@ -130,7 +131,7 @@ namespace CoreMessageBus.SqlServer
 
         public void Error(MessageBusException messageBusException, Guid id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 var command = new SqlCommand(_queries.Error, connection);
                 command.Parameters.AddWithValue("@Id", id);
@@ -143,7 +144,7 @@ namespace CoreMessageBus.SqlServer
 
         public void Success(QueueItem item)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 var command = new SqlCommand(_queries.Processed, connection);
                 command.Parameters.AddWithValue("@Id", item.Id);
@@ -151,5 +152,25 @@ namespace CoreMessageBus.SqlServer
                 command.ExecuteNonQuery();
             }
         }
+    }
+
+    public interface IConnectionStringSource
+    {
+        string GetConnectionString();
+    }
+
+    public class DefaultConnectionStringSource : IConnectionStringSource
+    {
+        private readonly string _connectionString;
+
+        public DefaultConnectionStringSource(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public string GetConnectionString() => _connectionString;
+
+
+
     }
 }

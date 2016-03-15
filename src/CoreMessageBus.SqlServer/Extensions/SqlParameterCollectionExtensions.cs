@@ -1,7 +1,7 @@
 using System;
 using System.Data.SqlClient;
 
-namespace CoreMessageBus.SqlServer
+namespace CoreMessageBus.SqlServer.Extensions
 {
     public static class SqlParameterCollectionExtensions
     {

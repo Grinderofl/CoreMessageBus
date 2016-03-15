@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace CoreMessageBus.SqlServer
+namespace CoreMessageBus.SqlServer.Extensions
 {
-    public static class SqlCommandExt
+    // http://stackoverflow.com/questions/2377506/pass-array-parameter-in-sqlcommand
+    public static class SqlCommandExtensions
     {
         /// <summary>
         /// This will add an array of parameters to a SqlCommand. This is used for an IN statement.

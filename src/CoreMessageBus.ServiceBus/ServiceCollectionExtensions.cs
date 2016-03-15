@@ -7,17 +7,17 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CoreMessageBus.ServiceBus
 {
-    public static class Extensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddServiceBus(this IServiceCollection services,
             Action<ServiceBusOptions> optionsAction)
         {
-            var options = new ServiceBusOptions();
+            var options = new ServiceBusOptions(services);
             optionsAction(options);
 
             services.TryAddScoped<IServiceBus, ServiceBus>();
             services.TryAddSingleton(options);
-            services.TryAddScoped(typeof(IQueueOperations), options.QueueOperations);
+            
             services.TryAdd(ServiceDescriptor.Singleton(options.QueueOptions.GetType(), options.QueueOptions));
             services.TryAdd(ServiceDescriptor.Singleton(typeof(QueueOptions), options.QueueOptions));
 

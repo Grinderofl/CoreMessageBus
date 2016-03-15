@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CoreMessageBus;
 using CoreMessageBus.ServiceBus;
 using CoreMessageBus.SqlServer;
+using CoreMessageBus.SqlServer.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 

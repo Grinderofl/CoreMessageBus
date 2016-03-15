@@ -25,11 +25,11 @@ namespace CoreMessageBus.SqlServer
 
         private string _queueId = "SELECT TOP (1) QueueId FROM {0} WHERE Name = @Name";
 
-        public SqlQueries(SqlServerQueueOptions options)
+        public SqlQueries(SqlServerQueueOperationOptions operationOptions)
         {
-            var queueTableNameWithSchema = $"{DelimitIdentifier(options.SchemaName)}.{DelimitIdentifier(options.QueueTableName)}";
+            var queueTableNameWithSchema = $"{DelimitIdentifier(operationOptions.SchemaName)}.{DelimitIdentifier(operationOptions.QueueTableName)}";
             var queuesTableNameWithSchema =
-                $"{DelimitIdentifier(options.SchemaName)}.{DelimitIdentifier(options.QueuesTableName)}";
+                $"{DelimitIdentifier(operationOptions.SchemaName)}.{DelimitIdentifier(operationOptions.QueuesTableName)}";
 
             PeekQueue = string.Format(_peekFormat, queueTableNameWithSchema, queuesTableNameWithSchema);
             DeQueue = string.Format(_deQueue, queueTableNameWithSchema);
@@ -47,5 +47,5 @@ namespace CoreMessageBus.SqlServer
         public string QueueId { get; }
     }
 
-    // http://stackoverflow.com/questions/2377506/pass-array-parameter-in-sqlcommand
+    
 }
