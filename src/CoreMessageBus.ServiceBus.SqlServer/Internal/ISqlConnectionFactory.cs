@@ -1,6 +1,6 @@
 using System.Data.SqlClient;
 
-namespace CoreMessageBus.SqlServer.Internal
+namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 {
     public interface ISqlConnectionFactory
     {

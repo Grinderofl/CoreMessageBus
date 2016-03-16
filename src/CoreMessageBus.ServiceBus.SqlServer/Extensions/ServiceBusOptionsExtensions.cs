@@ -1,14 +1,12 @@
-using CoreMessageBus.ServiceBus;
 using CoreMessageBus.ServiceBus.Configuration;
 using CoreMessageBus.ServiceBus.Infrastructure.Extensions;
 using CoreMessageBus.ServiceBus.Internal;
-using CoreMessageBus.SqlServer.Configuration;
-using CoreMessageBus.SqlServer.Internal;
+using CoreMessageBus.ServiceBus.SqlServer.Configuration;
+using CoreMessageBus.ServiceBus.SqlServer.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Newtonsoft.Json;
 
-namespace CoreMessageBus.SqlServer.Extensions
+namespace CoreMessageBus.ServiceBus.SqlServer.Extensions
 {
     public static class ServiceBusOptionsExtensions
     {
@@ -22,6 +20,7 @@ namespace CoreMessageBus.SqlServer.Extensions
                 .AddSingleton<SqlQueueItemFactory>()
                 .AddSingleton<SqlQueries>()
                 .AddScoped<IDbCommandFactory, SqlDbCommandFactory>()
+                .AddScoped<ISqlConnectionFactory, SqlConnectionFactory>()
                 );
 
             AddConnectionStringSource(connectionString, services);

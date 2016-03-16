@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using CoreMessageBus.ServiceBus.Domain;
-using CoreMessageBus.SqlServer.Configuration;
-using CoreMessageBus.SqlServer.Extensions;
+using CoreMessageBus.ServiceBus.SqlServer.Configuration;
+using CoreMessageBus.ServiceBus.SqlServer.Extensions;
+using System.Linq;
 
-namespace CoreMessageBus.SqlServer.Internal
+namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 {
     public class SqlDbCommandFactory : IDbCommandFactory
     {

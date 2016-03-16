@@ -7,10 +7,9 @@ using CoreMessageBus;
 using CoreMessageBus.ServiceBus;
 using CoreMessageBus.ServiceBus.Extensions;
 using CoreMessageBus.ServiceBus.Tests;
-using CoreMessageBus.SqlServer;
-using CoreMessageBus.SqlServer.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using CoreMessageBus.ServiceBus.SqlServer.Extensions;
 
 namespace ConsoleSample
 {

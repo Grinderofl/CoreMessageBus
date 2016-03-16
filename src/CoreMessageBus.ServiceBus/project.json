@@ -7,15 +7,14 @@
   "licenseUrl": "https://github.com/Grinderofl/CoreMessageBus/blob/master/LICENSE.md",
   "dependencies": {
     "CoreMessageBus": "1.0.0-*",
-    "Newtonsoft.Json": "8.0.2",
+    "Newtonsoft.Json": "8.0.3",
     "Microsoft.NETCore.Platforms": "1.0.1-*"
   },
 
   "frameworks": {
     "net451": {
       "frameworkAssemblies": {
-        "System.Runtime": "",
-        "System.Data": ""
+        "System.Runtime": ""
       }
     },
     "netstandard1.3": {
@@ -29,7 +28,6 @@
         "System.Reflection.Extensions": "4.0.1-*",
         "System.Runtime": "4.1.0-*",
         "System.Runtime.Extensions": "4.1.0-*",
-        "System.Data.SqlClient": "4.0.0-*",
         "System.Threading.Thread": "4.0.0-*"
       }
     }

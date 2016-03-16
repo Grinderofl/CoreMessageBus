@@ -1,13 +1,12 @@
 ﻿{
   "version": "1.0.0-*",
-  "description": "MessageBus for .NET Core - Sql Server",
+  "description": "MessageBus ServiceBus for .NET Core - Sql Server",
   "authors": [ "Nero Sule" ],
   "tags": [  ],
   "projectUrl": "https://github.com/Grinderofl/CoreMessageBus",
   "licenseUrl": "https://github.com/Grinderofl/CoreMessageBus/blob/master/LICENSE.md",
   "dependencies": {
     "CoreMessageBus.ServiceBus": "1.0.0-*",
-    "Newtonsoft.Json": "8.0.2",
     "Microsoft.NETCore.Platforms": "1.0.1-*"
   },
 

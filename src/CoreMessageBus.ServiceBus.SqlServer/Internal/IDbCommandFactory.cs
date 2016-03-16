@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using CoreMessageBus.ServiceBus.Domain;
 
-namespace CoreMessageBus.SqlServer.Internal
+namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 {
     public interface IDbCommandFactory
     {

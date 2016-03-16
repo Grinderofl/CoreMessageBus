@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace CoreMessageBus.SqlServer.Extensions
+namespace CoreMessageBus.ServiceBus.SqlServer.Extensions
 {
     // http://stackoverflow.com/questions/2377506/pass-array-parameter-in-sqlcommand
     public static class SqlCommandExtensions

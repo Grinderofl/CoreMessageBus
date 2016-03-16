@@ -1,6 +1,6 @@
-using CoreMessageBus.SqlServer.Configuration;
+using CoreMessageBus.ServiceBus.SqlServer.Configuration;
 
-namespace CoreMessageBus.SqlServer.Internal
+namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 {
     public class SqlQueries
     {

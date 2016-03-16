@@ -1,6 +1,6 @@
 using System;
 
-namespace CoreMessageBus.SqlServer
+namespace CoreMessageBus.ServiceBus.SqlServer
 {
     public class QueueNotFoundException : Exception
     {

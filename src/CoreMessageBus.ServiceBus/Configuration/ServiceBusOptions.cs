@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using CoreMessageBus.ServiceBus.Infrastructure;
 using CoreMessageBus.ServiceBus.Internal;
 using Microsoft.Extensions.DependencyInjection;

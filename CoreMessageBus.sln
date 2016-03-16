@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{553C
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleSample", "samples\ConsoleSample\ConsoleSample.xproj", "{B2EC2CA2-083C-4678-8E2F-FD8172CCA715}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CoreMessageBus.SqlServer", "src\CoreMessageBus.SqlServer\CoreMessageBus.SqlServer.xproj", "{5691A1AE-4606-47DA-B1A9-B121E16F4425}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CoreMessageBus.ServiceBus.SqlServer", "src\CoreMessageBus.ServiceBus.SqlServer\CoreMessageBus.ServiceBus.SqlServer.xproj", "{5691A1AE-4606-47DA-B1A9-B121E16F4425}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CoreMessageBus.SqlServer.Tests", "test\CoreMessageBus.SqlServer.Tests\CoreMessageBus.SqlServer.Tests.xproj", "{5832B207-C7AF-4E4C-A1B7-8B6383D1138F}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CoreMessageBus.ServiceBus.SqlServer.Tests", "test\CoreMessageBus.ServiceBus.SqlServer.Tests\CoreMessageBus.ServiceBus.SqlServer.Tests.xproj", "{5832B207-C7AF-4E4C-A1B7-8B6383D1138F}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CoreMessageBus.ServiceBus", "src\CoreMessageBus.ServiceBus\CoreMessageBus.ServiceBus.xproj", "{293421A0-DAA7-4DC2-8517-E6AFF97F10C5}"
 EndProject

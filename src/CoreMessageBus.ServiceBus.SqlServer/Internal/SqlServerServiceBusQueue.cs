@@ -1,48 +1,52 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using CoreMessageBus.ServiceBus.Domain;
-using CoreMessageBus.ServiceBus.Extensions;
 using CoreMessageBus.ServiceBus.Internal;
-using Newtonsoft.Json;
+using CoreMessageBus.ServiceBus.SqlServer.Extensions;
 
-namespace CoreMessageBus.SqlServer.Internal
+namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 {
     public class SqlServerServiceBusQueue : IServiceBusQueue
     {
         
-        private readonly IConnectionStringSource _connectionStringSource;
+        private readonly ISqlConnectionFactory _connectionFactory;
         private readonly SqlQueueItemFactory _queueItemFactory;
         private readonly IDbCommandFactory _factory;
-        public SqlServerServiceBusQueue(IConnectionStringSource connectionStringSource, SqlQueueItemFactory queueItemFactory, IDbCommandFactory factory)
+
+        public SqlServerServiceBusQueue(ISqlConnectionFactory connectionFactory, SqlQueueItemFactory queueItemFactory, IDbCommandFactory factory)
         {
-            _connectionStringSource = connectionStringSource;
+            _connectionFactory = connectionFactory;
             _queueItemFactory = queueItemFactory;
             _factory = factory;
         }
 
-        private string ConnectionString => _connectionStringSource.GetConnectionString();
-
         private void Execute(SqlCommand command)
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            PerformOnConnection(connection =>
             {
                 command.Connection = connection;
-                connection.Open();
                 command.ExecuteNonQuery();
+            });
+        }
+
+        private void PerformOnConnection(Action<SqlConnection> connectionAction)
+        {
+            using (var connection = _connectionFactory.Create())
+            {
+                connection.Open();
+                connectionAction(connection);
             }
         }
 
         private void ExecuteReader(SqlCommand command, Action<SqlDataReader> action)
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            PerformOnConnection(connection =>
             {
                 command.Connection = connection;
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                var reader = command.ExecuteReader();
                 action(reader);
-            }
+            });
         }
 
         public QueueItem Peek()

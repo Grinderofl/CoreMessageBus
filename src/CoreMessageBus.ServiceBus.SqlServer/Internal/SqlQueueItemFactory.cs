@@ -1,12 +1,11 @@
 using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using CoreMessageBus.ServiceBus.Domain;
-using CoreMessageBus.ServiceBus.Extensions;
 using CoreMessageBus.ServiceBus.Internal;
+using CoreMessageBus.ServiceBus.SqlServer.Extensions;
 
-namespace CoreMessageBus.SqlServer.Internal
+namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 {
     public class SqlQueueItemFactory
     {

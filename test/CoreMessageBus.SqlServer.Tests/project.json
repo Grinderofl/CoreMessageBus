@@ -7,7 +7,7 @@
   "licenseUrl": "",
   "dependencies": {
     "xunit": "2.1.0",
-    "CoreMessageBus.SqlServer": "1.0.0-*"   
+    "CoreMessageBus.ServiceBus.SqlServer": "1.0.0-*"   
   },
   "testRunner":"xunit",
   "frameworks": {

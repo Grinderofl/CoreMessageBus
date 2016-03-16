@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace CoreMessageBus.ServiceBus.Extensions
+namespace CoreMessageBus.ServiceBus.SqlServer.Extensions
 {
     public static class SqlReaderExtensions
     {

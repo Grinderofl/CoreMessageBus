@@ -1,4 +1,4 @@
-﻿namespace CoreMessageBus.SqlServer.Internal
+﻿namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 {
     internal static class Columns
     {
