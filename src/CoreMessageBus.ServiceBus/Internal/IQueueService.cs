@@ -1,4 +1,4 @@
-namespace CoreMessageBus.ServiceBus.Queue
+namespace CoreMessageBus.ServiceBus.Internal
 {
     public interface IQueueService
     {

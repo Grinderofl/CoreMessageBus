@@ -1,5 +1,5 @@
 using CoreMessageBus.ServiceBus.Domain;
-using CoreMessageBus.ServiceBus.Queue;
+using CoreMessageBus.ServiceBus.Internal;
 using Moq;
 using Xunit;
 
@@ -10,7 +10,7 @@ namespace CoreMessageBus.ServiceBus.Tests
         [Fact]
         public void Queues_items()
         {
-            var qoMock = new Mock<IQueueOperations>();
+            var qoMock = new Mock<IServiceBusQueue>();
             var qifMock = new Mock<IQueueItemFactory>();
             qifMock.Setup(x => x.Create<TestMessage>(It.IsAny<TestMessage>(), null)).Returns(new QueueItem());
 

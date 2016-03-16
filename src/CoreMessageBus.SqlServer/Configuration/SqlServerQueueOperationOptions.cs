@@ -1,6 +1,4 @@
-using CoreMessageBus.ServiceBus;
-
-namespace CoreMessageBus.SqlServer
+namespace CoreMessageBus.SqlServer.Configuration
 {
     public class SqlServerQueueOperationOptions
     {

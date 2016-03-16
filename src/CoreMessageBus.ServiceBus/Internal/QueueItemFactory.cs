@@ -1,8 +1,7 @@
 using System;
 using CoreMessageBus.ServiceBus.Domain;
-using CoreMessageBus.ServiceBus.Internal;
 
-namespace CoreMessageBus.ServiceBus.Queue
+namespace CoreMessageBus.ServiceBus.Internal
 {
     public class QueueItemFactory : IQueueItemFactory
     {

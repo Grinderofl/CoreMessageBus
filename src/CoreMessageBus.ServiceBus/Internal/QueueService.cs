@@ -1,42 +1,42 @@
 using System.Reflection;
 
-namespace CoreMessageBus.ServiceBus.Queue
+namespace CoreMessageBus.ServiceBus.Internal
 {
     public class QueueService : IQueueService
     {
-        private readonly IQueueOperations _queueOperations;
+        private readonly IServiceBusQueue _serviceBusQueue;
         protected readonly IMessageBus MessageBus;
 
-        public QueueService(IQueueOperations queueOperations, IMessageBus messageBus)
+        public QueueService(IServiceBusQueue serviceBusQueue, IMessageBus messageBus)
         {
-            _queueOperations = queueOperations;
+            _serviceBusQueue = serviceBusQueue;
             MessageBus = messageBus;
         }
 
         public bool HasQueue()
         {
-            return _queueOperations.Peek() != null;
+            return _serviceBusQueue.Peek() != null;
         }
         
         public void ProcessNextItem()
         {
-            var item = _queueOperations.Peek();
+            var item = _serviceBusQueue.Peek();
             if (item == null)
                 return;
-            _queueOperations.Dequeue(item);
+            _serviceBusQueue.Dequeue(item);
             var sendMethod = typeof(IMessageBus).GetTypeInfo().GetDeclaredMethod("Send");
             var sendGenericMethod = sendMethod.MakeGenericMethod(item.Type);
             var message = item.Data;
             try
             {
                 sendGenericMethod.Invoke(MessageBus, new[] {message});
-                _queueOperations.Success(item);
+                _serviceBusQueue.Success(item);
             }
             catch (TargetInvocationException ex)
             {
                 if (ex.InnerException is MessageBusException)
                 {
-                    _queueOperations.Error(ex.InnerException as MessageBusException, item.Id);
+                    _serviceBusQueue.Error(ex.InnerException as MessageBusException, item.Id);
                 }
                 else
                 {

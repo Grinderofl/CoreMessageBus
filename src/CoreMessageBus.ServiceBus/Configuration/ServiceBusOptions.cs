@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreMessageBus.ServiceBus.Infrastructure;
-using CoreMessageBus.ServiceBus.Queue;
+using CoreMessageBus.ServiceBus.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreMessageBus.ServiceBus.Configuration
@@ -27,7 +27,7 @@ namespace CoreMessageBus.ServiceBus.Configuration
 
         public Type QueueOperations { get; protected set; }
 
-        public ServiceBusOptions Operations<TOperations>() where TOperations : IQueueOperations
+        public ServiceBusOptions Operations<TOperations>() where TOperations : IServiceBusQueue
         {
             QueueOperations = typeof(TOperations);
             return this;

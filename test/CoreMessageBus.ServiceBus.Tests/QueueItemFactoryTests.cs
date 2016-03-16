@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using CoreMessageBus.ServiceBus.Domain;
 using CoreMessageBus.ServiceBus.Internal;
-using CoreMessageBus.ServiceBus.Queue;
 using Moq;
 using Xunit;
 

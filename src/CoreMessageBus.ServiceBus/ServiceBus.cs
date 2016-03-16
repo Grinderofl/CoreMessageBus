@@ -1,23 +1,23 @@
 using System;
-using CoreMessageBus.ServiceBus.Queue;
+using CoreMessageBus.ServiceBus.Internal;
 
 namespace CoreMessageBus.ServiceBus
 {
     public class ServiceBus : IServiceBus
     {
-        private readonly IQueueOperations _queueOperations;
+        private readonly IServiceBusQueue _serviceBusQueue;
         private readonly IQueueItemFactory _queueItemFactory;
 
-        public ServiceBus(IQueueOperations queueOperations, IQueueItemFactory queueItemFactory)
+        public ServiceBus(IServiceBusQueue serviceBusQueue, IQueueItemFactory queueItemFactory)
         {
-            _queueOperations = queueOperations;
+            _serviceBusQueue = serviceBusQueue;
             _queueItemFactory = queueItemFactory;
         }
 
         public void Send<TMessage>(TMessage message)
         {
             var item = _queueItemFactory.Create(message);
-            _queueOperations.Queue(item);
+            _serviceBusQueue.Queue(item);
         }
 
         public void Defer<TMessage>(TMessage message, TimeSpan timespan)

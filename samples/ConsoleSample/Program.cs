@@ -19,8 +19,8 @@ namespace ConsoleSample
         
         public static void Main(string[] args)
         {
-            var tests = new QueueItemFactoryTests();
-            tests.Creates_queueitem();
+            //var tests = new QueueItemFactoryTests();
+            //tests.Creates_queueitem();
             //var settings = new JsonSerializerSettings()
             //{
             //    PreserveReferencesHandling = PreserveReferencesHandling.Objects
@@ -38,13 +38,8 @@ namespace ConsoleSample
             //var dataStr = JsonConvert.SerializeObject(queueItem.Data, settings);
             //var str = JsonConvert.SerializeObject(queueItem, settings);
 
-            var provider = new ServiceCollection()
-                .AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>())
-                .AddServiceBus(x => x
-                    .UseSqlServer("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;")
-                    .Handles("Queue1", new[] {typeof(Message)})
-                )
-                .BuildServiceProvider();
+
+            
             //try
             //{
             //    var bus = provider.GetService<IServiceBus>();
@@ -59,6 +54,13 @@ namespace ConsoleSample
             //var client = new ServiceBusClient(new QueueService(operations, provider.GetService<IMessageBus>()));
             try
             {
+                var provider = new ServiceCollection()
+                .AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>())
+                .AddServiceBus(x => x
+                    .UseSqlServer("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;")
+                    .Handles("Queue1", new[] { typeof(Message) })
+                )
+                .BuildServiceProvider();
                 var client = provider.GetService<IServiceBusClient>();
                 client.Start();
             }

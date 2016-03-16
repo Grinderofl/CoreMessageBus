@@ -1,4 +1,4 @@
-namespace CoreMessageBus.SqlServer
+namespace CoreMessageBus.SqlServer.Internal
 {
     public class DefaultConnectionStringSource : IConnectionStringSource
     {

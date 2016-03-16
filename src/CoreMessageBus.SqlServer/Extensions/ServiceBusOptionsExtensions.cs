@@ -1,8 +1,9 @@
 using CoreMessageBus.ServiceBus;
 using CoreMessageBus.ServiceBus.Configuration;
 using CoreMessageBus.ServiceBus.Infrastructure.Extensions;
-using CoreMessageBus.ServiceBus.Queue;
-using CoreMessageBus.SqlServer.Queue;
+using CoreMessageBus.ServiceBus.Internal;
+using CoreMessageBus.SqlServer.Configuration;
+using CoreMessageBus.SqlServer.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
@@ -15,9 +16,12 @@ namespace CoreMessageBus.SqlServer.Extensions
         {
             var services = options.GetInfrastructure().Services;
 
-            services.TryAddEnumerable(
+            services.TryAdd(
                 new ServiceCollection()
-                .AddSingleton<IQueueOperations, SqlServerQueueOperations>()
+                .AddSingleton<IServiceBusQueue, SqlServerServiceBusQueue>()
+                .AddSingleton<SqlQueueItemFactory>()
+                .AddSingleton<SqlQueries>()
+                .AddScoped<IDbCommandFactory, SqlDbCommandFactory>()
                 );
 
             AddConnectionStringSource(connectionString, services);

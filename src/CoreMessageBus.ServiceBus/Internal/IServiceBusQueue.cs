@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using CoreMessageBus.ServiceBus.Domain;
 
-namespace CoreMessageBus.ServiceBus.Queue
+namespace CoreMessageBus.ServiceBus.Internal
 {
-    public interface IQueueOperations
+    public interface IServiceBusQueue
     {
         QueueItem Peek();
         void Dequeue(QueueItem item);
@@ -11,5 +12,6 @@ namespace CoreMessageBus.ServiceBus.Queue
         int GetQueueId(string queueName);
         void Error(MessageBusException messageBusException, Guid id);
         void Success(QueueItem item);
+        IEnumerable<Queue> GetQueues();
     }
 }

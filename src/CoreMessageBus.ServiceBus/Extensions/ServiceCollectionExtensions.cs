@@ -1,7 +1,6 @@
 ﻿using System;
 using CoreMessageBus.ServiceBus.Configuration;
 using CoreMessageBus.ServiceBus.Internal;
-using CoreMessageBus.ServiceBus.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -12,12 +11,14 @@ namespace CoreMessageBus.ServiceBus.Extensions
         public static IServiceCollection AddServiceBus(this IServiceCollection services,
             Action<ServiceBusOptions> optionsAction)
         {
+            if (services == null) throw new ArgumentNullException(nameof(services));
+            if (optionsAction == null) throw new ArgumentNullException(nameof(optionsAction));
             var options = new ServiceBusOptions(services);
             optionsAction(options);
 
-            services.TryAddEnumerable(new ServiceCollection()
+            services.TryAdd(new ServiceCollection()
                 .AddScoped<IServiceBus, ServiceBus>()
-                .AddScoped<QueueSelector>()
+                .AddScoped<IQueueSelector, QueueSelector>()
                 .AddScoped<IDateTimeProvider, DateTimeProvider>()
                 .AddScoped<IIdGenerator, IdGenerator>()
                 .AddScoped<IDataSerializer, JsonDataSerializer>()

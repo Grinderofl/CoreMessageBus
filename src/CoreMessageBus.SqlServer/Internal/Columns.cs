@@ -1,4 +1,4 @@
-﻿namespace CoreMessageBus.SqlServer
+﻿namespace CoreMessageBus.SqlServer.Internal
 {
     internal static class Columns
     {
@@ -32,6 +32,8 @@
             public const int StatusIndex = 8;
             public const int QueueIdIndex = 9;
             public const int QueueNameIndex = 10;
+
+            public const int NameIndex = 1;
         }
     }
 }

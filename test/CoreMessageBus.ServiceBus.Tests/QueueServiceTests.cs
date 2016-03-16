@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreMessageBus.ServiceBus.Domain;
-using CoreMessageBus.ServiceBus.Queue;
+using CoreMessageBus.ServiceBus.Internal;
 using Moq;
 using Xunit;
 
@@ -14,7 +14,7 @@ namespace CoreMessageBus.ServiceBus.Tests
         [Fact]
         public void Processes_items()
         {
-            var qoMock = new Mock<IQueueOperations>();
+            var qoMock = new Mock<IServiceBusQueue>();
             var mbMock = new Mock<IMessageBus>();
 
             qoMock.Setup(x => x.Peek()).Returns(new QueueItem() {Data = new TestMessage(), Type = typeof (TestMessage)});
@@ -29,7 +29,7 @@ namespace CoreMessageBus.ServiceBus.Tests
         [Fact]
         public void Updates_queue_on_success()
         {
-            var qoMock = new Mock<IQueueOperations>();
+            var qoMock = new Mock<IServiceBusQueue>();
             var mbMock = new Mock<IMessageBus>();
 
             qoMock.Setup(x => x.Peek()).Returns(new QueueItem() {Data = new TestMessage(), Type = typeof (TestMessage)});
@@ -44,7 +44,7 @@ namespace CoreMessageBus.ServiceBus.Tests
         [Fact]
         public void Updates_queue_on_error()
         {
-            var qoMock = new Mock<IQueueOperations>();
+            var qoMock = new Mock<IServiceBusQueue>();
             var mbMock = new Mock<IMessageBus>();
             mbMock.Setup(x => x.Send(It.IsAny<TestMessage>())).Throws<MessageBusException>();
             qoMock.Setup(x => x.Peek())

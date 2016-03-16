@@ -1,4 +1,6 @@
-namespace CoreMessageBus.SqlServer
+using CoreMessageBus.SqlServer.Configuration;
+
+namespace CoreMessageBus.SqlServer.Internal
 {
     public class SqlQueries
     {
@@ -25,6 +27,8 @@ namespace CoreMessageBus.SqlServer
 
         private string _queueId = "SELECT TOP (1) QueueId FROM {0} WHERE Name = @Name";
 
+        private string _queues = "SELECT QueueId, Name FROM {0} ORDER BY Name DESC";
+
         public SqlQueries(SqlServerQueueOperationOptions operationOptions)
         {
             var queueTableNameWithSchema = $"{DelimitIdentifier(operationOptions.SchemaName)}.{DelimitIdentifier(operationOptions.QueueTableName)}";
@@ -37,6 +41,7 @@ namespace CoreMessageBus.SqlServer
             Queue = string.Format(_queue, queueTableNameWithSchema);
             QueueId = string.Format(_queueId, queuesTableNameWithSchema);
             Processed = string.Format(_processed, queueTableNameWithSchema);
+            Queues = string.Format(_queues, queuesTableNameWithSchema);
         }
 
         public string Processed { get; }
@@ -45,6 +50,7 @@ namespace CoreMessageBus.SqlServer
         public string Error { get; }
         public string Queue { get; }
         public string QueueId { get; }
+        public string Queues { get; }
     }
 
     

@@ -6,7 +6,7 @@ namespace CoreMessageBus.ServiceBus.Internal
 {
     public class JsonDataSerializer : IDataSerializer
     {
-        private JsonSerializerSettings _settings = new JsonSerializerSettings()
+        private readonly JsonSerializerSettings _settings = new JsonSerializerSettings()
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         };
