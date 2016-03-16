@@ -1,0 +1,37 @@
+﻿{
+  "dependencies": {
+    "Microsoft.Extensions.CommandLineUtils": "1.0.0-*",
+    "Microsoft.Extensions.Logging": "1.0.0-*",
+    "Microsoft.Extensions.Logging.Console": "1.0.0-*",
+    "NETStandard.Library": "1.0.0-*"
+  },
+  "description": "Command line tool to create tables and indexes in a Microsoft SQL Server database for Service Bus Queue.",
+  "tags": [
+    "messagebus",
+    "servicebus",
+    "sqlserver"
+  ],
+  "frameworks": {
+    "netstandardapp1.5": {
+      "dependencies": {
+        "System.Data.SqlClient": "4.0.0-*"
+      },
+      "imports": [
+        "dnxcore50"
+      ]
+    }
+  },
+  "compilationOptions": {
+    "emitEntryPoint": true,
+    "warningsAsErrors": true,
+    "nowarn": [
+      "CS1591"
+    ],
+    "xmlDoc": true
+  },
+  "version": "1.0.0-*",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grinderofl/coremessagebus"
+  }
+}

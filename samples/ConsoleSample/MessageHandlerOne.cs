@@ -1,4 +1,5 @@
 using System;
+using Core;
 using CoreMessageBus;
 
 namespace ConsoleSample
@@ -7,7 +8,7 @@ namespace ConsoleSample
     {
         public void Handle(Message message)
         {
-            Console.WriteLine("{0} world", message.Name);
+            Console.WriteLine("{0} world", message.Value);
         }
     }
 }

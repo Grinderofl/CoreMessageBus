@@ -1,0 +1,44 @@
+﻿{
+  "version": "1.0.0-*",
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0-*",
+    "Microsoft.AspNetCore.IISPlatformHandler": "1.0.0-*",
+    "Microsoft.AspNetCore.Mvc": "1.0.0-*",
+    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.0-*",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-*",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0-*",
+    "Microsoft.AspNetCore.Tooling.Razor": "1.0.0-*",
+    "Microsoft.Extensions.Configuration.FileProviderExtensions": "1.0.0-*",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-*",
+    "Microsoft.Extensions.Logging": "1.0.0-*",
+    "Microsoft.Extensions.Logging.Console": "1.0.0-*",
+    "Microsoft.Extensions.Logging.Debug": "1.0.0-*",
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-*",
+    "CoreMessageBus.ServiceBus.SqlServer": "1.0.0-*",
+    "Core": "1.0.0-*"
+  },
+
+  "commands": {
+    "web": "WebSample"
+  },
+
+  "frameworks": {
+    "net451": { }
+  },
+
+  "exclude": [
+    "wwwroot",
+    "node_modules"
+  ],
+  "publishExclude": [
+    "**.user",
+    "**.vspscc"
+  ],
+  "scripts": {
+    "prepublish": [ "npm install", "bower install", "gulp clean", "gulp min" ]
+  }
+}
