@@ -12,6 +12,7 @@
             "CREATE TABLE {0}( " + 
             "Id uniqueidentifier NOT NULL, " + 
             "MessageId uniqueidentifier NOT NULL, " +
+            "ContentType nvarchar(255) NOT NULL, " +
             "Encoding nvarchar(255) NOT NULL, " + 
             "Data nvarchar(MAX) NULL, " +
             "Created datetime NULL, " +
@@ -19,6 +20,7 @@
             "[Status] nvarchar(50) NOT NULL, " +
             "[Type] nvarchar(255) NULL, " +
             "QueueId int NOT NULL, " +
+            "[Error] nvarchar(MAX) NULL, " +
             "CONSTRAINT pk_Id PRIMARY KEY CLUSTERED(Id ASC))";
 
         private const string CreateQueuesTableFormat =

@@ -38,6 +38,12 @@ namespace CoreMessageBus.ServiceBus.Configuration
             return this;
         }
 
+        public ServiceBusOptions Workers(int count)
+        {
+            QueueOptions.Workers = count;
+            return this;
+        }
+
         public QueueOptions QueueOptions { get; set; } = new QueueOptions();
 
         IServiceCollection IServiceBusInfrastructure.Services => _services;

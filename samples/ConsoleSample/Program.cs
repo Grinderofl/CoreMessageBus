@@ -56,10 +56,13 @@ namespace ConsoleSample
             {
                 var provider = new ServiceCollection()
                 .AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>())
-                .AddServiceBus(x => x
-                    .UseSqlServer(s => s.ConnectionString("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;"))
-                    .Handles("Queue1", new[] { typeof(Message) })
-                )
+                .AddServiceBus(x =>
+                {
+                    x
+                        .UseSqlServer(s => s.ConnectionString("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;"))
+                        .Workers(2)
+                        .Handles("Queue1", new[] {typeof (Message)});
+                })
                 .BuildServiceProvider();
                 var client = provider.GetService<IServiceBusClient>();
                 client.Start();

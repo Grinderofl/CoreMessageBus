@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using CoreMessageBus.ServiceBus.Configuration;
 using CoreMessageBus.ServiceBus.Internal;
 
@@ -6,7 +7,8 @@ namespace CoreMessageBus.ServiceBus
 {
     public class ServiceBusClient : IServiceBusClient
     {
-        private Thread _thread;
+        private readonly IList<Thread> _threads = new List<Thread>();
+
         private bool _started;
 
         private readonly IQueueService _queueService;
@@ -21,25 +23,31 @@ namespace CoreMessageBus.ServiceBus
         public void Start()
         {
             _started = true;
-            _thread = new Thread(() =>
+            for (var i = 0; i < _options.Workers; i++)
             {
-                while (_started)
+                var thread = new Thread(() =>
                 {
-                    if (!_queueService.HasQueue())
+                    while (_started)
                     {
-                        Thread.Sleep(_options.SleepTime);
-                        continue;
+                        if (!_queueService.HasQueue())
+                        {
+                            Thread.Sleep(_options.SleepTime);
+                            continue;
+                        }
+                        _queueService.ProcessNextItem();
                     }
-                    _queueService.ProcessNextItem();
-                }
-            });
-            _thread.Start();
+                });
+                thread.Start();
+                _threads.Add(thread);
+            }
+            
         }
         
 
         public void Stop()
         {
             _started = false;
+            _threads.Clear();
         }
     }
 }

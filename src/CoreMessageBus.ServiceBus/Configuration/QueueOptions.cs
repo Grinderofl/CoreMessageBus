@@ -9,6 +9,8 @@ namespace CoreMessageBus.ServiceBus.Configuration
         public IDictionary<string, ISet<Type>> HandlesQueues { get; protected set; } = new Dictionary<string, ISet<Type>>();
         public int SleepTime { get; set; } = 1000;
 
+        public int Workers { get; set; } = 1;
+
         public QueueOptions Queue(string queueName, IEnumerable<Type> types)
         {
             if(!HandlesQueues.ContainsKey(queueName))
@@ -16,5 +18,7 @@ namespace CoreMessageBus.ServiceBus.Configuration
             HandlesQueues[queueName] = new HashSet<Type>(HandlesQueues[queueName].Concat(types).Distinct());
             return this;
         }
+
+        
     }
 }
