@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CoreMessageBus.ServiceBus.Configuration;
@@ -12,6 +13,8 @@ namespace CoreMessageBus.ServiceBus.Internal
         
         public QueueSelector(QueueOptions queueOptions,IServiceBusQueue queue)
         {
+            if (queueOptions == null) throw new ArgumentNullException(nameof(queueOptions));
+            if (queue == null) throw new ArgumentNullException(nameof(queue));
             _queueOptions = queueOptions;
             _queue = queue;
         }

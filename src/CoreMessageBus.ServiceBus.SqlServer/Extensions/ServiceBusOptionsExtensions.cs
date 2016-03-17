@@ -14,6 +14,8 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Extensions
         public static ServiceBusOptions UseSqlServer(this ServiceBusOptions options,
             Action<SqlServerQueueOperationOptions> optionsAction)
         {
+            if (options == null) throw new ArgumentNullException(nameof(options));
+            if (optionsAction == null) throw new ArgumentNullException(nameof(optionsAction));
             var services = options.GetInfrastructure().Services;
 
             services.TryAdd(

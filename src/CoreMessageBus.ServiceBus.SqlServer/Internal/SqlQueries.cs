@@ -1,3 +1,4 @@
+using System;
 using CoreMessageBus.ServiceBus.SqlServer.Configuration;
 
 namespace CoreMessageBus.ServiceBus.SqlServer.Internal
@@ -31,6 +32,7 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 
         public SqlQueries(SqlServerQueueOperationOptions operationOptions)
         {
+            if (operationOptions == null) throw new ArgumentNullException(nameof(operationOptions));
             var queueTableNameWithSchema = $"{DelimitIdentifier(operationOptions.SchemaName)}.{DelimitIdentifier(operationOptions.QueueItemsTableName)}";
             var queuesTableNameWithSchema =
                 $"{DelimitIdentifier(operationOptions.SchemaName)}.{DelimitIdentifier(operationOptions.QueuesTableName)}";

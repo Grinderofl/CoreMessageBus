@@ -14,6 +14,7 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
         public SqlQueueItemFactory(IDataSerializer dataSerializer)
         {
             if (dataSerializer == null) throw new ArgumentNullException(nameof(dataSerializer));
+            if (dataSerializer == null) throw new ArgumentNullException(nameof(dataSerializer));
             _dataSerializer = dataSerializer;
         }
 

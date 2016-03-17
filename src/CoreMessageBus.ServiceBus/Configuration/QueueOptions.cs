@@ -13,6 +13,8 @@ namespace CoreMessageBus.ServiceBus.Configuration
 
         public QueueOptions Queue(string queueName, IEnumerable<Type> types)
         {
+            if (queueName == null) throw new ArgumentNullException(nameof(queueName));
+            if (types == null) throw new ArgumentNullException(nameof(types));
             if(!HandlesQueues.ContainsKey(queueName))
                 HandlesQueues.Add(queueName, new HashSet<Type>());
             HandlesQueues[queueName] = new HashSet<Type>(HandlesQueues[queueName].Concat(types).Distinct());

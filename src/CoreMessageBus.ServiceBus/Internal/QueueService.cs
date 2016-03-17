@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
@@ -17,6 +18,10 @@ namespace CoreMessageBus.ServiceBus.Internal
 
         public QueueService(IServiceBusQueue serviceBusQueue, IServiceScopeFactory serviceScopeFactory, IServiceBusUnitOfWork unitOfWork, ILogger logger)
         {
+            if (serviceBusQueue == null) throw new ArgumentNullException(nameof(serviceBusQueue));
+            if (serviceScopeFactory == null) throw new ArgumentNullException(nameof(serviceScopeFactory));
+            if (unitOfWork == null) throw new ArgumentNullException(nameof(unitOfWork));
+            if (logger == null) throw new ArgumentNullException(nameof(logger));
             _serviceBusQueue = serviceBusQueue;
             _serviceScopeFactory = serviceScopeFactory;
             _unitOfWork = unitOfWork;
@@ -34,6 +39,7 @@ namespace CoreMessageBus.ServiceBus.Internal
             var item = _serviceBusQueue.Peek();
             if (item == null || _cache.Contains(item))
                 return;
+            _logger.LogDebug("Processing queue item {0}", item.Id);
             _cache.Add(item);
             _serviceBusQueue.Dequeue(item);
 
@@ -48,7 +54,7 @@ namespace CoreMessageBus.ServiceBus.Internal
                 try
                 {
                     _unitOfWork.Begin();
-                    sendGenericMethod.Invoke(messageBus, new[] { message });
+                    sendGenericMethod.Invoke(messageBus, new[] {message});
                     _unitOfWork.Commit();
                     _serviceBusQueue.Success(item);
                     _cache.Remove(item);
@@ -57,16 +63,17 @@ namespace CoreMessageBus.ServiceBus.Internal
                 {
                     if (ex.InnerException is MessageBusException)
                     {
-                        _logger.LogError("");
-                        _unitOfWork.Rollback();
                         _serviceBusQueue.Error(ex.InnerException as MessageBusException, item.Id);
                         _cache.Remove(item);
-                    }
-                    else
-                    {
                         throw;
                     }
-
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Error while handling message '{0}': {1}", item.Id, ex.Message);
+                    _unitOfWork.Rollback();
+                    throw;
                 }
             }
         }

@@ -1,3 +1,4 @@
+using System;
 using CoreMessageBus.ServiceBus.SqlServer.Configuration;
 
 namespace CoreMessageBus.ServiceBus.SqlServer.Internal
@@ -8,6 +9,7 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 
         public DefaultConnectionStringSource(SqlServerQueueOperationOptions options)
         {
+            if (options == null) throw new ArgumentNullException(nameof(options));
             _options = options;
         }
 

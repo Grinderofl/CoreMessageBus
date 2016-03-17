@@ -12,13 +12,16 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
         
         private readonly ISqlConnectionFactory _connectionFactory;
         private readonly SqlQueueItemFactory _queueItemFactory;
-        private readonly IDbCommandFactory _factory;
+        private readonly IDbCommandFactory _commandFactory;
 
-        public SqlServerServiceBusQueue(ISqlConnectionFactory connectionFactory, SqlQueueItemFactory queueItemFactory, IDbCommandFactory factory)
+        public SqlServerServiceBusQueue(ISqlConnectionFactory connectionFactory, SqlQueueItemFactory queueItemFactory, IDbCommandFactory commandFactory)
         {
+            if (connectionFactory == null) throw new ArgumentNullException(nameof(connectionFactory));
+            if (queueItemFactory == null) throw new ArgumentNullException(nameof(queueItemFactory));
+            if (commandFactory == null) throw new ArgumentNullException(nameof(commandFactory));
             _connectionFactory = connectionFactory;
             _queueItemFactory = queueItemFactory;
-            _factory = factory;
+            _commandFactory = commandFactory;
         }
 
         private void Execute(SqlCommand command)
@@ -52,7 +55,7 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
         public QueueItem Peek()
         {
             var queues = GetQueues();
-            var command = _factory.CreatePeekCommand(queues);
+            var command = _commandFactory.CreatePeekCommand(queues);
             QueueItem queueItem = null;
             ExecuteReader(command, reader => queueItem = _queueItemFactory.Create(reader));
             return queueItem;
@@ -60,19 +63,19 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 
         public void Dequeue(QueueItem item)
         {
-            var command = _factory.CreateDequeueCommand(item);
+            var command = _commandFactory.CreateDequeueCommand(item);
             Execute(command);
         }
 
         public void Queue(QueueItem item)
         {
-            var command = _factory.CreateQueueCommand(item);
+            var command = _commandFactory.CreateQueueCommand(item);
             Execute(command);
         }
 
         public int GetQueueId(string queueName)
         {
-            var command = _factory.CreateQueueIdCommand(queueName);
+            var command = _commandFactory.CreateQueueIdCommand(queueName);
             int queueId = -1;
             ExecuteReader(command, reader =>
             {
@@ -90,19 +93,19 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 
         public void Error(MessageBusException messageBusException, Guid id)
         {
-            var command = _factory.CreateErrorCommand(messageBusException, id);
+            var command = _commandFactory.CreateErrorCommand(messageBusException, id);
             Execute(command);
         }
 
         public void Success(QueueItem item)
         {
-            var command = _factory.CreateSuccessCommand(item);
+            var command = _commandFactory.CreateSuccessCommand(item);
             Execute(command);
         }
 
         public IEnumerable<Queue> GetQueues()
         {
-            var command = _factory.CreateQueuesCommand();
+            var command = _commandFactory.CreateQueuesCommand();
             var queues = new List<Queue>();
 
             ExecuteReader(command, reader =>

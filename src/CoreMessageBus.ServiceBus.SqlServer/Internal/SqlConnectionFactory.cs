@@ -1,3 +1,4 @@
+using System;
 using System.Data.SqlClient;
 
 namespace CoreMessageBus.ServiceBus.SqlServer.Internal
@@ -8,6 +9,7 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 
         public SqlConnectionFactory(IConnectionStringSource connectionStringSource)
         {
+            if (connectionStringSource == null) throw new ArgumentNullException(nameof(connectionStringSource));
             _connectionStringSource = connectionStringSource;
         }
 

@@ -15,11 +15,14 @@ namespace CoreMessageBus.ServiceBus.Internal
         public Encoding Encoding => Encoding.UTF8;
         public object Serialize<TMessage>(TMessage message)
         {
+            if (message == null) throw new ArgumentNullException(nameof(message));
             return JsonConvert.SerializeObject(message, _settings);
         }
 
         public object Deserialize(string item, Type target)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (target == null) throw new ArgumentNullException(nameof(target));
             return JsonConvert.DeserializeObject(item, target, _settings);
         }
     }

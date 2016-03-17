@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -17,6 +18,8 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Extensions
         /// <param name="separator">The string that separates the parameter names in the sql command.</param>
         public static SqlParameter[] AddArrayParameters<T>(this SqlCommand cmd, IEnumerable<T> values, string paramNameRoot, int start = 1, string separator = ", ")
         {
+            if (cmd == null) throw new ArgumentNullException(nameof(cmd));
+            if (values == null) throw new ArgumentNullException(nameof(values));
             /* An array cannot be simply added as a parameter to a SqlCommand so we need to loop through things and add it manually. 
              * Each item in the array will end up being it's own SqlParameter so the return value for this must be used as part of the
              * IN statement in the CommandText.

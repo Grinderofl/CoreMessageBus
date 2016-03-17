@@ -11,11 +11,13 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Configuration
 
         private SqlServerQueueOperationOptions SetOption(Action<SqlServerQueueOperationOptions> action)
         {
+            if (action == null) throw new ArgumentNullException(nameof(action));
             action(this);
             return this;
         }
 
-        public SqlServerQueueOperationOptions Schema(string schemaName) => SetOption(x => x.SchemaName = schemaName);
+        public SqlServerQueueOperationOptions Schema(string schemaName) 
+            => SetOption(x => x.SchemaName = schemaName);
 
         public SqlServerQueueOperationOptions QueuesTable(string queuesTableName)
             => SetOption(x => x.QueuesTableName = queuesTableName);

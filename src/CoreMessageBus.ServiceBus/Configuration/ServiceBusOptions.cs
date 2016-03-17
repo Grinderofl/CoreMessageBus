@@ -13,6 +13,7 @@ namespace CoreMessageBus.ServiceBus.Configuration
 
         public ServiceBusOptions(IServiceCollection services)
         {
+            if (services == null) throw new ArgumentNullException(nameof(services));
             _services = services;
         }
 

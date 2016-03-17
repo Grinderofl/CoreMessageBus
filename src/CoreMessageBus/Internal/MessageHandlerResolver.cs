@@ -34,8 +34,9 @@ namespace CoreMessageBus.Internal
             }
         }
 
-        protected virtual IMessageHandler<TMessage> ResolveHandlerType<TMessage>(Type resolvedHandlerType)
+        protected virtual IMessageHandler<TMessage> ResolveHandlerType<TMessage>([NotNull] Type resolvedHandlerType)
         {
+            if (resolvedHandlerType == null) throw new ArgumentNullException(nameof(resolvedHandlerType));
             Logger?.LogDebug($"Resolving {resolvedHandlerType} using factory");
             return _factory.Create<TMessage>(resolvedHandlerType);
         }
