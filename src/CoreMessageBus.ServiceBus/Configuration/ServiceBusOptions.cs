@@ -17,9 +17,7 @@ namespace CoreMessageBus.ServiceBus.Configuration
         }
 
         public bool SendOnlyServiceBus { get; protected set; }
-
         
-
         public ServiceBusOptions SendOnly(bool sendOnly = true)
         {
             SendOnlyServiceBus = sendOnly;

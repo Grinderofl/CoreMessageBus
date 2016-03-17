@@ -57,7 +57,7 @@ namespace ConsoleSample
                 var provider = new ServiceCollection()
                 .AddMessageBus(x => x.RegisterHandler<MessageHandlerOne>())
                 .AddServiceBus(x => x
-                    .UseSqlServer("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;")
+                    .UseSqlServer(s => s.ConnectionString("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;"))
                     .Handles("Queue1", new[] { typeof(Message) })
                 )
                 .BuildServiceProvider();

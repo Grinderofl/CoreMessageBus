@@ -67,7 +67,15 @@ namespace coremessagebus_sql
                         _queueItemsTableName = queueItemsTableNameArg.Value;
                         _queuesTableName = queuesTableNameArg.Value;
 
-                        CreateTableAndIndexes();
+                        try
+                        {
+                            CreateTableAndIndexes();
+                        }
+                        catch (Exception ex)
+                        {
+                            var s = ex;
+                            throw;
+                        }
 
                         return 0;
                     });

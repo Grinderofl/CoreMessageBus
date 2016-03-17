@@ -1,3 +1,4 @@
+using System;
 using CoreMessageBus.ServiceBus.Configuration;
 using CoreMessageBus.ServiceBus.Infrastructure.Extensions;
 using CoreMessageBus.ServiceBus.Internal;
@@ -10,34 +11,37 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Extensions
 {
     public static class ServiceBusOptionsExtensions
     {
-        public static ServiceBusOptions UseSqlServer(this ServiceBusOptions options, string connectionString = null)
+        public static ServiceBusOptions UseSqlServer(this ServiceBusOptions options,
+            Action<SqlServerQueueOperationOptions> optionsAction)
         {
             var services = options.GetInfrastructure().Services;
 
             services.TryAdd(
                 new ServiceCollection()
-                .AddSingleton<IServiceBusQueue, SqlServerServiceBusQueue>()
-                .AddSingleton<SqlQueueItemFactory>()
-                .AddSingleton<SqlQueries>()
-                .AddScoped<IDbCommandFactory, SqlDbCommandFactory>()
-                .AddScoped<ISqlConnectionFactory, SqlConnectionFactory>()
+                    .AddSingleton<IServiceBusQueue, SqlServerServiceBusQueue>()
+                    .AddSingleton<SqlQueueItemFactory>()
+                    .AddSingleton<SqlQueries>()
+                    .AddScoped<IDbCommandFactory, SqlDbCommandFactory>()
+                    .AddScoped<ISqlConnectionFactory, SqlConnectionFactory>()
                 );
 
-            AddConnectionStringSource(connectionString, services);
-
             var queueOptions = new SqlServerQueueOperationOptions();
+            optionsAction(queueOptions);
             services.TryAddSingleton(queueOptions);
+
+            AddConnectionStringSource(queueOptions, services);
+
             return options;
         }
 
-        private static void AddConnectionStringSource(string connectionString, IServiceCollection services)
+        private static void AddConnectionStringSource(SqlServerQueueOperationOptions options,
+            IServiceCollection services)
         {
-            if (connectionString != null)
+            if (options.ConnectionStringValue != null)
             {
-                services.TryAddSingleton<IConnectionStringSource>(new DefaultConnectionStringSource(connectionString));
+                services.TryAddSingleton<IConnectionStringSource, DefaultConnectionStringSource>();
             }
         }
     }
-
 
 }

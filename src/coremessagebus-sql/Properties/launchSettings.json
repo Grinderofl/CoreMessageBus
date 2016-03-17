@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "coremessagebus-sql": {
+      "commandName": "coremessagebus-sql",
+      "commandLineArgs": "create \"Server=.;Database=ServiceBusQueue;Trusted_Connection=True;\" \"dbo\" \"Queues\" \"QueueItems\""
+    }
+  }
+}

@@ -1,37 +1,51 @@
 ﻿{
-  "dependencies": {
-    "Microsoft.Extensions.CommandLineUtils": "1.0.0-*",
-    "Microsoft.Extensions.Logging": "1.0.0-*",
-    "Microsoft.Extensions.Logging.Console": "1.0.0-*",
-    "NETStandard.Library": "1.0.0-*"
-  },
-  "description": "Command line tool to create tables and indexes in a Microsoft SQL Server database for Service Bus Queue.",
-  "tags": [
-    "messagebus",
-    "servicebus",
-    "sqlserver"
-  ],
-  "frameworks": {
-    "netstandardapp1.5": {
-      "dependencies": {
-        "System.Data.SqlClient": "4.0.0-*"
-      },
-      "imports": [
-        "dnxcore50"
-      ]
-    }
+  "commands": {
+    "coremessagebus-sql": "coremessagebus-sql"
   },
   "compilationOptions": {
     "emitEntryPoint": true,
-    "warningsAsErrors": true,
+    "warningsAsErrors": false,
     "nowarn": [
       "CS1591"
     ],
     "xmlDoc": true
   },
-  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Microsoft.Extensions.CommandLineUtils": "1.0.0-*",
+    "Microsoft.Extensions.Logging": "1.0.0-*",
+    "Microsoft.Extensions.Logging.Console": "1.0.0-*",
+    "Microsoft.NETCore.Platforms": "1.0.1-*"
+  },
+
+  "description": "Command line tool to create tables and indexes in a Microsoft SQL Server database for Service Bus Queue.",
+
+  "frameworks": {
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Runtime": "",
+        "System.Data": ""
+      }
+    },
+    "netstandardapp1.5": {
+      "dependencies": {
+        "System.Data.SqlClient": "4.0.0-*",
+        "NETStandard.Library": "1.0.0-*"
+      },
+      "imports": [
+        "dotnet5.4",
+        "portable-windows8+net452+win81"
+      ]
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/grinderofl/coremessagebus"
-  }
+  },
+  "tags": [
+    "messagebus",
+    "servicebus",
+    "sqlserver"
+  ],
+  "version": "1.0.0-*"
 }

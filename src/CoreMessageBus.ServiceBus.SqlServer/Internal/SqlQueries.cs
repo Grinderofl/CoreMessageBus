@@ -31,7 +31,7 @@ namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 
         public SqlQueries(SqlServerQueueOperationOptions operationOptions)
         {
-            var queueTableNameWithSchema = $"{DelimitIdentifier(operationOptions.SchemaName)}.{DelimitIdentifier(operationOptions.QueueTableName)}";
+            var queueTableNameWithSchema = $"{DelimitIdentifier(operationOptions.SchemaName)}.{DelimitIdentifier(operationOptions.QueueItemsTableName)}";
             var queuesTableNameWithSchema =
                 $"{DelimitIdentifier(operationOptions.SchemaName)}.{DelimitIdentifier(operationOptions.QueuesTableName)}";
 

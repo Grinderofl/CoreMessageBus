@@ -1,17 +1,16 @@
+using CoreMessageBus.ServiceBus.SqlServer.Configuration;
+
 namespace CoreMessageBus.ServiceBus.SqlServer.Internal
 {
     public class DefaultConnectionStringSource : IConnectionStringSource
     {
-        private readonly string _connectionString;
+        private readonly SqlServerQueueOperationOptions _options;
 
-        public DefaultConnectionStringSource(string connectionString)
+        public DefaultConnectionStringSource(SqlServerQueueOperationOptions options)
         {
-            _connectionString = connectionString;
+            _options = options;
         }
 
-        public string GetConnectionString() => _connectionString;
-
-
-
+        public string GetConnectionString() => _options.ConnectionStringValue;
     }
 }

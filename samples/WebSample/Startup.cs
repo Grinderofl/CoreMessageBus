@@ -33,7 +33,7 @@ namespace WebSample
             services
                 .AddServiceBus(x => x
                     .SendOnly()
-                    .UseSqlServer("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;")
+                    .UseSqlServer(s => s.ConnectionString("Server=.;Database=ServiceBusQueue;Trusted_Connection=True;"))
                     .Handles("Queue1", new[] {typeof (Message)})
                 );
         }
