@@ -8,9 +8,11 @@ namespace CoreMessageBus
 {
     public static class Extensions
     {
-        public static IServiceCollection AddMessageBus([NotNull] this IServiceCollection services, Action<MessageBusConfiguration> configurationAction)
+        public static IServiceCollection AddMessageBus([NotNull] this IServiceCollection services,
+            [NotNull] Action<MessageBusConfiguration> configurationAction)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
+            if (configurationAction == null) throw new ArgumentNullException(nameof(configurationAction));
 
             var configuration = new MessageBusConfiguration();
             configurationAction(configuration);

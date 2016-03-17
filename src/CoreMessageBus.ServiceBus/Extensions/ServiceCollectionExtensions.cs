@@ -23,6 +23,7 @@ namespace CoreMessageBus.ServiceBus.Extensions
                 .AddScoped<IIdGenerator, IdGenerator>()
                 .AddScoped<IDataSerializer, JsonDataSerializer>()
                 .AddScoped<IQueueItemFactory, QueueItemFactory>()
+                .AddScoped<IServiceBusUnitOfWork, ServiceBusUnitOfWork>()
                 );
 
             services.TryAddSingleton(options);

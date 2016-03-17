@@ -1,5 +1,6 @@
 using System;
 using CoreMessageBus.Internal;
+using JetBrains.Annotations;
 
 namespace CoreMessageBus.Configuration
 {
@@ -13,8 +14,9 @@ namespace CoreMessageBus.Configuration
             return this;
         }
 
-        public MessageBusConfiguration RegisterHandler(Type handlerType)
+        public MessageBusConfiguration RegisterHandler([NotNull] Type handlerType)
         {
+            if (handlerType == null) throw new ArgumentNullException(nameof(handlerType));
             Registry.RegisterHandler(handlerType);
             return this;
         }

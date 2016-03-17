@@ -17,7 +17,7 @@ namespace CoreMessageBus.ServiceBus.Tests
 
             qoMock.Setup(x => x.Peek()).Returns(new QueueItem() {Data = new TestMessage(), Type = typeof (TestMessage)});
 
-            var service = new QueueService(qoMock.Object, mbMock.Object);
+            var service = new QueueService(qoMock.Object);
 
             service.ProcessNextItem();
 
@@ -32,7 +32,7 @@ namespace CoreMessageBus.ServiceBus.Tests
 
             qoMock.Setup(x => x.Peek()).Returns(new QueueItem() {Data = new TestMessage(), Type = typeof (TestMessage)});
 
-            var service = new QueueService(qoMock.Object, mbMock.Object);
+            var service = new QueueService(qoMock.Object);
 
             service.ProcessNextItem();
 
@@ -48,7 +48,7 @@ namespace CoreMessageBus.ServiceBus.Tests
             qoMock.Setup(x => x.Peek())
                 .Returns(new QueueItem() {Data = new TestMessage(), Type = typeof (TestMessage), Id = Guid.Empty});
 
-            var service = new QueueService(qoMock.Object, mbMock.Object);
+            var service = new QueueService(qoMock.Object);
 
             service.ProcessNextItem();
 
