@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Reflection;
 
 namespace CoreMessageBus.ServiceBus.Internal
 {

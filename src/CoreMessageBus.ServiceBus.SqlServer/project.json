@@ -18,7 +18,7 @@
       }
     },
     "netstandard1.3": {
-      "imports": [ "dotnet5.4", "portable-net452+win81" ],
+      "imports": [ "dotnet5.4", "portable-net452+win81", "portable-net45+wp80+win8+wpa81+dnxcore50", "dnxcore50" ],
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-*",
         "System.Collections": "4.0.11-*",

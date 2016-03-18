@@ -19,7 +19,8 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0-*",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-*",
     "CoreMessageBus.ServiceBus.SqlServer": "1.0.0-*",
-    "Core": "1.0.0-*"
+    "Core": "1.0.0-*",
+    "Microsoft.NETCore.Platforms": "1.0.1-*"
   },
 
   "commands": {
@@ -39,6 +40,6 @@
     "**.vspscc"
   ],
   "scripts": {
-    "prepublish": [ "npm install", "bower install", "gulp clean", "gulp min" ]
+    "prepublish": [  ]
   }
 }
