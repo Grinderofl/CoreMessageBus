@@ -8,8 +8,7 @@
   "dependencies": {
     "Microsoft.Extensions.Logging.Abstractions": "1.0.0-*",
     "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-*",
-    "Microsoft.Extensions.DependencyInjection": "1.0.0-*",
-    "Microsoft.NETCore.Platforms": "1.0.1-*"
+    "Microsoft.Extensions.DependencyInjection": "1.0.0-*"
   },
 
   "frameworks": {
@@ -20,7 +19,7 @@
       }
     },
     "netstandard1.3": {
-      "imports": [ "dotnet5.4", "portable-net452+win81" ],
+      "imports": [ "dotnet5.4", "portable-windows8+net45+wp8" ],
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-*",
         "System.Collections": "4.0.11-*",
