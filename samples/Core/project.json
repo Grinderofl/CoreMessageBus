@@ -2,13 +2,12 @@
   "version": "1.0.0-*",
   "description": "Core Class Library",
   "authors": [ "Nero" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
   "dependencies": {
-
+    "NETStandard.Library": "1.6.0"
   },
   "frameworks": {
-    "net451": { }
+    "netstandard1.6": {
+      "imports": [ "dnxcore50" ]
+    }
   }
 }

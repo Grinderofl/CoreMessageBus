@@ -1,32 +1,23 @@
 ﻿{
-  "version": "1.0.0-*",
-  "description": "CoreMessageBus.Tests Class Library",
   "authors": [ "Nero" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
   "dependencies": {
-    "xunit": "2.1.0",
-    "CoreMessageBus.ServiceBus.SqlServer": "1.0.0-*"   
+    "CoreMessageBus.ServiceBus.SqlServer": "1.0.0-*",
+    "xunit": "2.1.0"
   },
-  "testRunner":"xunit",
+  "description": "CoreMessageBus.Tests Class Library",
   "frameworks": {
-    "net451": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50",
       "dependencies": {
-        "xunit.runner.console": "2.1.0",
-        "Moq": "4.2.1510.2205"
-      },
-      "frameworkAssemblies": {
-        "System.Threading.Tasks": ""
-      }
-    },
-    "netstandardapp1.5": {
-      "imports": [ "dnxcore50", "portable-windows8+net452+win81" ],
-      "dependencies": {
-        "dotnet-test-xunit": "1.0.0-dev-*",
-        "Microsoft.NETCore.Platforms": "1.0.1-*",
+        "dotnet-test-xunit": "1.0.0-*",
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0",
+          "type": "platform"
+        },
         "moq.netcore": "4.4.0-*"
       }
     }
-  }
+  },
+  "testRunner": "xunit",
+  "version": "1.0.0-*"
 }

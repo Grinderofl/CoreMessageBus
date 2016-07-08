@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Core;
 using CoreMessageBus;
 using CoreMessageBus.ServiceBus;
@@ -53,10 +54,6 @@ namespace WebSample
             loggerFactory.AddDebug();
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-
-
-            app.UseIISPlatformHandler();
-
             app.UseStaticFiles();
 
             app.UseMvcWithDefaultRoute();
@@ -65,11 +62,11 @@ namespace WebSample
         // Entry point for the application.
         public static void Main(string[] args)
             =>
-                new WebHostBuilder().UseServer("Microsoft.AspNetCore.Server.Kestrel")
-                    .UseIISPlatformHandlerUrl()
-                    .UseDefaultConfiguration(args)
-                    .UseStartup<Startup>()
-                    .Build()
-                    .Run();
+                new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build().Run();
     }
 }
