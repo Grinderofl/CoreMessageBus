@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using CoreMessageBus.ServiceBus.Domain;
 using CoreMessageBus.ServiceBus.Internal;
@@ -46,7 +47,7 @@ namespace CoreMessageBus.ServiceBus.Tests
 
             ssfMock.Setup(x => x.CreateScope()).Returns(ssMock.Object);
             ssMock.SetupGet(x => x.ServiceProvider).Returns(spMock.Object);
-            spMock.Setup(x => x.GetService<IMessageBus>()).Returns(messageBus);
+            spMock.Setup(x => x.GetService(It.IsAny<Type>())).Returns(messageBus);
 
             return new QueueService(queue, ssfMock.Object, new ServiceBusUnitOfWork(), lMock.Object);
         }
@@ -65,20 +66,40 @@ namespace CoreMessageBus.ServiceBus.Tests
             qoMock.Verify(x => x.Success(It.IsAny<QueueItem>()), Times.Once);
         }
 
+        public Delegate MethodThatThrows;
+
         [Fact]
         public void Updates_queue_on_error()
         {
             var qoMock = new Mock<IServiceBusQueue>();
+            //var mbMock = new MockMessageBus();
             var mbMock = new Mock<IMessageBus>();
             mbMock.Setup(x => x.Send(It.IsAny<TestMessage>())).Throws<MessageBusException>();
             qoMock.Setup(x => x.Peek())
                 .Returns(new QueueItem() {Data = new TestMessage(), Type = typeof (TestMessage), Id = Guid.Empty});
 
-            var service = CreateQueueService(qoMock.Object, null);
+            var service = CreateQueueService(qoMock.Object, mbMock.Object);
 
-            service.ProcessNextItem();
 
+            Action @delegate = () => service.ProcessNextItem();
+
+            Assert.Throws<TargetInvocationException>(@delegate);
             qoMock.Verify(x => x.Error(It.IsAny<MessageBusException>(), Guid.Empty), Times.Once);
+        }
+
+        private class MockMessageBus : IMessageBus
+        {
+            public void Send<TMessage>(TMessage message)
+            {
+                if(typeof(TMessage) == typeof(TestMessage))
+                    throw new MessageBusException();
+
+            }
+
+            public Task SendAsync<TMessage>(TMessage message)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private class TestMessage
